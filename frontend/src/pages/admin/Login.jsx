@@ -47,7 +47,7 @@ export default function Login() {
   return (
     <div className="max-w-[1200px] mx-auto px-3 py-6">
       <h1 className="text-h1 mb-2">Staff Login</h1>
-      <p className="text-[16px] font-sans text-slate-500 mb-5">Sign in to the NCPOR portal. Your dashboard depends on your role.</p>
+      <p className="text-[16px] font-sans text-slate-500 mb-5">Sign in to the PRISM portal. Your dashboard depends on your role.</p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Manual login form */}
@@ -103,16 +103,16 @@ export default function Login() {
                 key={account.email}
                 onClick={() => handleQuickLogin(account)}
                 disabled={loading}
-                className="w-full text-left bg-white rounded-card border border-line p-3 hover:shadow-hover hover:border-glacier-500 transition-all duration-150 disabled:opacity-50 group"
+                className="w-full text-left bg-white rounded-card border border-line p-3 hover: hover:border-slate-300 transition-all duration-150 disabled:opacity-50 group"
               >
                 <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-full ${account.color} flex items-center justify-center flex-shrink-0`}>
+                  <div className={`w-10 h-10 rounded-[2px] ${account.color} flex items-center justify-center flex-shrink-0`}>
                     <span className="text-white text-[14px] font-serif font-bold">{account.name.charAt(0)}</span>
                   </div>
                   <div className="flex-grow min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="text-[15px] font-serif font-bold text-navy-900 group-hover:text-glacier-500 transition-colors duration-150">{account.name}</span>
-                      <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-full ${account.color}`}>{account.label}</span>
+                      <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-[2px] ${account.color}`}>{account.label}</span>
                     </div>
                     <p className="text-[12px] font-sans text-slate-500 mt-0.5">{account.desc}</p>
                     <p className="text-[11px] font-mono text-slate-400 mt-0.5">{account.email}</p>

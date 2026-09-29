@@ -45,7 +45,7 @@ export default function MySubmissions() {
               <div className="flex items-start justify-between mb-2">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-full ${item.action === 'CREATE' ? 'bg-aurora-500' : 'bg-glacier-700'}`}>
+                    <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-[2px] ${item.action === 'CREATE' ? 'bg-aurora-500' : 'bg-glacier-700'}`}>
                       {item.action}
                     </span>
                     <span className="text-[12px] font-sans text-slate-500">
@@ -55,7 +55,7 @@ export default function MySubmissions() {
                   <p className="text-[11px] font-sans text-slate-400 mt-0.5">Submitted on {item.created_at}</p>
                 </div>
                 <div className="flex flex-col items-end">
-                  <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-full ${statusColors[item.status] || 'bg-slate-500'}`}>
+                  <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-[2px] ${statusColors[item.status] || 'bg-slate-500'}`}>
                     {item.status}
                   </span>
                 </div>

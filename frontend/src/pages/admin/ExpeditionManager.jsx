@@ -109,10 +109,10 @@ export default function ExpeditionManager() {
       {/* Form modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-start justify-center pt-10 overflow-y-auto">
-          <div className="bg-white rounded-card border border-line p-5 w-full max-w-[700px] shadow-lg mb-10">
+          <div className="bg-white rounded-card border border-line p-5 w-full max-w-[700px] mb-10">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-h2">{editItem ? 'Edit Expedition' : 'New Expedition'}</h2>
-              <button onClick={() => setShowForm(false)} className="text-slate-500 hover:text-slate-800 text-[20px]">✕</button>
+              <button onClick={() => setShowForm(false)} className="text-[13px] font-sans text-slate-500 hover:text-slate-800">Close</button>
             </div>
             <form onSubmit={handleSubmit} className="space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -231,7 +231,7 @@ export default function ExpeditionManager() {
                     <td className="text-[13px] font-sans text-slate-500 py-2 px-3">{item.region?.replace('_', ' ')}</td>
                     <td className="text-[13px] font-sans text-slate-500 py-2 px-3">{item.year}</td>
                     <td className="py-2 px-3">
-                      <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-full ${statusColors[item.status] || 'bg-slate-500'}`}>
+                      <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-[2px] ${statusColors[item.status] || 'bg-slate-500'}`}>
                         {item.status === 'ARCHIVED' ? 'PRIVATE' : item.status}
                       </span>
                     </td>

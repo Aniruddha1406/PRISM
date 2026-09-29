@@ -1,15 +1,15 @@
 export default function About() {
   return (
     <div className="max-w-[1200px] mx-auto px-3 py-5">
-      <h1 className="text-h1 mb-3">About NCPOR</h1>
+      <h1 className="text-h1 mb-3">About PRISM</h1>
 
       <section className="bg-white rounded-card border border-line p-4 mb-4">
         <h2 className="text-h2 mb-2">Mandate</h2>
         <p className="text-[16px] font-sans text-slate-800 leading-relaxed">
-          The National Centre for Polar and Ocean Research (NCPOR) is an autonomous research institution under the Ministry of Earth Sciences, Government of India. Headquartered in Vasco da Gama, Goa, NCPOR is responsible for planning, promoting, and executing the entire gamut of polar and ocean research activities of India.
+          The National Centre for Polar and Ocean Research (PRISM) is an autonomous research institution under the Ministry of Earth Sciences, Government of India. Headquartered in Vasco da Gama, Goa, PRISM is responsible for planning, promoting, and executing the entire gamut of polar and ocean research activities of India.
         </p>
         <p className="text-[16px] font-sans text-slate-800 leading-relaxed mt-2">
-          NCPOR manages Indian research stations in the Arctic and Antarctic, leads scientific expeditions to the polar regions and Southern Ocean, and operates India's high-altitude cryosphere research station in the Himalaya. The centre also conducts ocean research programmes, including studies of the Indian Ocean and deep-sea mining exploration.
+          PRISM manages Indian research stations in the Arctic and Antarctic, leads scientific expeditions to the polar regions and Southern Ocean, and operates India's high-altitude cryosphere research station in the Himalaya. The centre also conducts ocean research programmes, including studies of the Indian Ocean and deep-sea mining exploration.
         </p>
       </section>
 
@@ -68,10 +68,10 @@ function StationCard({ name, location, region, year, description }) {
     Himalaya: 'border-ember-500 text-ember-500',
   };
   return (
-    <div className="bg-white rounded-card border border-line p-3 hover:shadow-hover transition-shadow duration-150">
+    <div className="bg-white rounded-card border border-line p-3 hover: transition-shadow duration-150">
       <div className="flex items-center gap-2 mb-2">
         <h3 className="text-[18px] font-serif font-bold text-navy-900">{name}</h3>
-        <span className={`text-[11px] font-sans border px-2 py-0.5 rounded-full ${regionColors[region] || ''}`}>
+        <span className={`text-[11px] font-sans border px-2 py-0.5 rounded-[2px] ${regionColors[region] || ''}`}>
           {region}
         </span>
       </div>

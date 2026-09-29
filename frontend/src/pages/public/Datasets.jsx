@@ -28,7 +28,7 @@ export default function Datasets() {
   return (
     <div className="max-w-[1200px] mx-auto px-3 py-5">
       <h1 className="text-h1 mb-2">Data Repository</h1>
-      <p className="text-[16px] font-sans text-slate-500 mb-4">Scientific datasets from NCPOR research programmes. Download data for your research.</p>
+      <p className="text-[16px] font-sans text-slate-500 mb-4">Scientific datasets from PRISM research programmes. Download data for your research.</p>
 
       <div className="flex items-center gap-3 mb-4 flex-wrap">
         <input type="search" placeholder="Search datasets..." value={searchQ} onChange={e => setSearchQ(e.target.value)}

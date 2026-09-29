@@ -7,6 +7,7 @@ async function start() {
   await getDb();
   console.log('Database initialized.');
 
+  // Server entry point
   app.listen(config.PORT, () => {
     console.log(`Backend server running on http://localhost:${config.PORT}`);
     console.log(`Health check: http://localhost:${config.PORT}/api/v1/health`);

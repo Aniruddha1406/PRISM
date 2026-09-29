@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import PublicLayout from './layouts/PublicLayout';
 import AdminLayout from './layouts/AdminLayout';
+import SiteBackground from './components/layout/SiteBackground';
 
 // Public pages
 import Home from './pages/public/Home';
@@ -31,7 +32,9 @@ import UserManager from './pages/admin/UserManager';
 
 export default function App() {
   return (
-    <Routes>
+    <>
+      <SiteBackground />
+      <Routes>
       {/* Public routes */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
@@ -49,10 +52,10 @@ export default function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/login" element={<Login />} />
         <Route path="/accessibility" element={<StaticPage title="Accessibility Statement" content="This portal is designed to be accessible to all users in compliance with WCAG 2.1 AA standards and GIGW 3.0 guidelines. Features include keyboard navigation, visible focus indicators, semantic HTML, text-size controls, and high-contrast colour choices. If you encounter any accessibility issues, please contact us." />} />
-        <Route path="/terms" element={<StaticPage title="Terms of Use" content="This portal is maintained by the National Centre for Polar and Ocean Research (NCPOR), Ministry of Earth Sciences, Government of India. Content is provided for informational and educational purposes. Datasets are available under their respective licences as specified in their metadata. Proper citation is required when using any data or publications from this portal." />} />
+        <Route path="/terms" element={<StaticPage title="Terms of Use" content="This portal is maintained by the National Centre for Polar and Ocean Research (PRISM), Ministry of Earth Sciences, Government of India. Content is provided for informational and educational purposes. Datasets are available under their respective licences as specified in their metadata. Proper citation is required when using any data or publications from this portal." />} />
         <Route path="/privacy" element={<StaticPage title="Privacy Policy" content="This portal collects minimal personal data. Download logs are stored only with consent for usage analytics. We use httpOnly cookies for authentication. No personal data is shared with third parties. This portal complies with applicable Indian data protection regulations." />} />
         <Route path="/sitemap" element={<Placeholder title="Sitemap" />} />
-        <Route path="/help" element={<StaticPage title="Help" content="For assistance with this portal, including data access, publication queries, or technical issues, please contact NCPOR at info@ncpor.gov.in or use the Contact page. For researchers needing dataset access, please register and submit a data access request through the Data Repository section." />} />
+        <Route path="/help" element={<StaticPage title="Help" content="For assistance with this portal, including data access, publication queries, or technical issues, please contact PRISM at info@ncpor.gov.in or use the Contact page. For researchers needing dataset access, please register and submit a data access request through the Data Repository section." />} />
       </Route>
 
       {/* Admin routes */}
@@ -70,6 +73,7 @@ export default function App() {
         <Route path="users" element={<UserManager />} />
       </Route>
     </Routes>
+    </>
   );
 }
 
@@ -99,7 +103,7 @@ function ContactPage() {
       <h1 className="text-h1 mb-3">Contact</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-white rounded-card border border-line p-4">
-          <h2 className="text-h2 mb-2">NCPOR Headquarters</h2>
+          <h2 className="text-h2 mb-2">PRISM Headquarters</h2>
           <dl className="space-y-2 text-[14px] font-sans">
             <div><dt className="text-slate-500">Address</dt><dd className="text-slate-800">Headland Sada, Vasco da Gama, Goa 403804, India</dd></div>
             <div><dt className="text-slate-500">Phone</dt><dd className="text-slate-800">+91-832-2525-600</dd></div>

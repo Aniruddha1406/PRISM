@@ -27,8 +27,8 @@ export default function ExpeditionDetail() {
       </nav>
 
       <div className="flex items-center gap-2 mb-2">
-        <span className="bg-glacier-700 text-white text-[11px] font-sans px-2 py-0.5 rounded-full">{exp.region}</span>
-        <span className={`text-[11px] font-sans px-2 py-0.5 rounded-full border ${exp.expedition_status==='COMPLETED'?'border-glacier-700 text-glacier-700':'border-aurora-500 text-aurora-500'}`}>{exp.expedition_status}</span>
+        <span className="bg-glacier-700 text-white text-[11px] font-sans px-2 py-0.5 rounded-[2px]">{exp.region}</span>
+        <span className={`text-[11px] font-sans px-2 py-0.5 rounded-[2px] border ${exp.expedition_status==='COMPLETED'?'border-glacier-700 text-glacier-700':'border-aurora-500 text-aurora-500'}`}>{exp.expedition_status}</span>
       </div>
 
       <h1 className="text-h1 mb-2">{exp.title}</h1>

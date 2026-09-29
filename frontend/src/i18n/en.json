@@ -1,5 +1,5 @@
 {
-  "site_title": "NCPOR - National Centre for Polar and Ocean Research",
+  "site_title": "PRISM - National Centre for Polar and Ocean Research",
   "govt_of_india": "Government of India",
   "ministry": "Ministry of Earth Sciences",
   "nav": {
@@ -21,7 +21,7 @@
   "footer": {
     "ncpor_name": "National Centre for Polar and Ocean Research",
     "address": "Headland Sada, Vasco da Gama, Goa 403804, India",
-    "copyright": "NCPOR, Ministry of Earth Sciences, Government of India. All rights reserved."
+    "copyright": "PRISM, Ministry of Earth Sciences, Government of India. All rights reserved."
   },
   "labels": {
     "view_all": "View all",

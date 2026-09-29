@@ -10,7 +10,7 @@ export default {
         'navy-900': '#0B192C',
         'glacier-700': '#1E3E62',
         'glacier-500': '#3B82F6',
-        'frost-50': '#F4F8FB',
+        'frost-50': '#f6f8fa',
         'aurora-500': '#00B4D8',
         'ember-500': '#E76F51',
         'slate-800': '#1E293B',

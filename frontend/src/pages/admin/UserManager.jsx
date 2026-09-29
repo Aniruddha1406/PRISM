@@ -55,7 +55,7 @@ export default function UserManager() {
                 <tr key={u.id} className="border-b border-line last:border-0 hover:bg-frost-50/50 transition-colors duration-100">
                   <td className="text-[13px] font-sans text-navy-900 py-2 px-3 font-bold">
                     <div className="flex items-center gap-2">
-                      <div className={`w-7 h-7 rounded-full ${roleColors[u.role]} flex items-center justify-center flex-shrink-0`}>
+                      <div className={`w-7 h-7 rounded-[2px] ${roleColors[u.role]} flex items-center justify-center flex-shrink-0`}>
                         <span className="text-white text-[11px] font-serif font-bold">{u.name?.charAt(0)}</span>
                       </div>
                       {u.name}
@@ -64,7 +64,7 @@ export default function UserManager() {
                   </td>
                   <td className="text-[13px] font-mono text-slate-500 py-2 px-3">{u.email}</td>
                   <td className="py-2 px-3">
-                    <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-full ${roleColors[u.role]}`}>{u.role}</span>
+                    <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-[2px] ${roleColors[u.role]}`}>{u.role}</span>
                   </td>
                   <td className="text-[12px] font-sans text-slate-500 py-2 px-3">{u.createdAt?.split('T')[0]}</td>
                   <td className="py-2 px-3">

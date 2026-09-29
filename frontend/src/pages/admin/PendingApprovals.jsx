@@ -51,7 +51,7 @@ export default function PendingApprovals() {
       <div className="flex gap-2 mb-4">
         {['PENDING', 'APPROVED', 'REJECTED'].map(s => (
           <button key={s} onClick={() => setFilter(s)}
-            className={`px-3 py-1 text-[13px] font-sans rounded-card border transition-colors duration-150 ${filter === s ? 'bg-glacier-500 text-white border-glacier-500' : 'bg-white text-slate-500 border-line hover:border-glacier-500'}`}>
+            className={`px-3 py-1 text-[13px] font-sans rounded-card border transition-colors duration-150 ${filter === s ? 'bg-glacier-500 text-white border-glacier-500' : 'bg-white text-slate-500 border-line hover:border-slate-300'}`}>
             {s}
           </button>
         ))}
@@ -70,7 +70,7 @@ export default function PendingApprovals() {
               <div className="flex items-start justify-between mb-2">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-full ${item.action === 'CREATE' ? 'bg-aurora-500' : 'bg-glacier-700'}`}>
+                    <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-[2px] ${item.action === 'CREATE' ? 'bg-aurora-500' : 'bg-glacier-700'}`}>
                       {item.action}
                     </span>
                     <span className="text-[12px] font-sans text-slate-500">

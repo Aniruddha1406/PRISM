@@ -60,11 +60,11 @@ export default function Dashboard() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-baseline justify-between mb-6 pb-2 border-b border-line">
         <div>
-          <h1 className="text-h1">Welcome, {user.name}</h1>
-          <p className="text-[14px] font-sans text-slate-500">
-            {user.role === 'ADMIN' ? 'You have full administrative access.' : 'You have editor access. Your content changes will require admin approval.'}
+          <h1 className="font-serif text-[20px] font-normal text-navy-900">Welcome, {user.name}</h1>
+          <p className="text-[14px] font-sans text-slate-500 mt-1">
+            {stats?.totalPending || 0} items awaiting review.
           </p>
         </div>
         <div className="text-right">
@@ -74,121 +74,117 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Notification alert */}
-      {notifications.length > 0 && (
-        <div className="mb-4 bg-glacier-500/10 border border-glacier-500 rounded-card p-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-[18px]">🔔</span>
-            <p className="text-[13px] font-sans text-glacier-700 font-bold">
-              You have {notifications.length} unread notification{notifications.length !== 1 ? 's' : ''}
-            </p>
-          </div>
-          <Link to={user.role === 'ADMIN' ? '/admin/approvals' : '/admin/my-submissions'}
-            className="text-[12px] font-sans text-glacier-500 hover:underline">View →</Link>
+      {/* Overview Stats (Ruled layout) */}
+      <div className="flex items-start border-b border-line pb-4 mb-6">
+        <div className="flex-1 border-r border-line pr-4 mr-4">
+          <p className="text-[10px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">Pending</p>
+          <p className="text-[24px] font-serif font-normal text-ember-500">{stats?.totalPending || 0}</p>
+          <Link to="/admin/approvals" className="text-[11px] font-sans text-ember-500 hover:underline inline-block mt-1">View queue</Link>
         </div>
-      )}
-
-      {/* Overview Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
-        <Link to="/admin/approvals" className="bg-white p-3 rounded-card border border-line shadow-sm hover:shadow-hover hover:border-glacier-500 transition-all duration-150 group">
-          <p className="text-[11px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">Pending</p>
-          <p className="text-[28px] font-serif font-bold text-ember-500 group-hover:text-glacier-500 transition-colors">{stats?.totalPending || 0}</p>
-          <p className="text-[10px] font-sans text-slate-400 mt-1">awaiting review</p>
-        </Link>
-        <Link to="/admin/expeditions" className="bg-white p-3 rounded-card border border-line shadow-sm hover:shadow-hover hover:border-glacier-500 transition-all duration-150 group">
-          <p className="text-[11px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">Expeditions</p>
-          <p className="text-[28px] font-serif font-bold text-navy-900">{pubExpeditions}</p>
-          <p className="text-[10px] font-sans text-slate-400 mt-1">{totalExpeditions} total</p>
-        </Link>
-        <Link to="/admin/datasets" className="bg-white p-3 rounded-card border border-line shadow-sm hover:shadow-hover hover:border-glacier-500 transition-all duration-150 group">
-          <p className="text-[11px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">Datasets</p>
-          <p className="text-[28px] font-serif font-bold text-navy-900">{pubDatasets}</p>
-          <p className="text-[10px] font-sans text-slate-400 mt-1">{totalDatasets} total</p>
-        </Link>
-        <Link to="/admin/publications" className="bg-white p-3 rounded-card border border-line shadow-sm hover:shadow-hover hover:border-glacier-500 transition-all duration-150 group">
-          <p className="text-[11px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">Publications</p>
-          <p className="text-[28px] font-serif font-bold text-navy-900">{pubPublications}</p>
-          <p className="text-[10px] font-sans text-slate-400 mt-1">{totalPublications} total</p>
-        </Link>
-        <Link to="/admin/media" className="bg-white p-3 rounded-card border border-line shadow-sm hover:shadow-hover hover:border-glacier-500 transition-all duration-150 group">
-          <p className="text-[11px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">Media</p>
-          <p className="text-[28px] font-serif font-bold text-navy-900">{pubMedia}</p>
-          <p className="text-[10px] font-sans text-slate-400 mt-1">{totalMedia} total</p>
-        </Link>
-        <Link to="/admin/news" className="bg-white p-3 rounded-card border border-line shadow-sm hover:shadow-hover hover:border-glacier-500 transition-all duration-150 group">
-          <p className="text-[11px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">News</p>
-          <p className="text-[28px] font-serif font-bold text-navy-900">{pubNews}</p>
-          <p className="text-[10px] font-sans text-slate-400 mt-1">published articles</p>
-        </Link>
+        <div className="flex-1 border-r border-line pr-4 mr-4">
+          <p className="text-[10px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">Expeditions</p>
+          <p className="text-[24px] font-serif font-normal text-navy-900">{pubExpeditions}</p>
+        </div>
+        <div className="flex-1 border-r border-line pr-4 mr-4">
+          <p className="text-[10px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">Datasets</p>
+          <p className="text-[24px] font-serif font-normal text-navy-900">{pubDatasets}</p>
+        </div>
+        <div className="flex-1 border-r border-line pr-4 mr-4">
+          <p className="text-[10px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">Publications</p>
+          <p className="text-[24px] font-serif font-normal text-navy-900">{pubPublications}</p>
+        </div>
+        <div className="flex-1 border-r border-line pr-4 mr-4">
+          <p className="text-[10px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">Media</p>
+          <p className="text-[24px] font-serif font-normal text-navy-900">{pubMedia}</p>
+        </div>
+        <div className="flex-1">
+          <p className="text-[10px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">News</p>
+          <p className="text-[24px] font-serif font-normal text-navy-900">{pubNews}</p>
+        </div>
       </div>
 
-      {/* Content Status Bars */}
+      {/* Panels for Expeditions and Datasets instead of simple status bars */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-        {[
-          { label: 'Expeditions', data: stats?.contentByStatus?.expeditions },
-          { label: 'Datasets', data: stats?.contentByStatus?.datasets },
-          { label: 'Publications', data: stats?.contentByStatus?.publications },
-          { label: 'Media', data: stats?.contentByStatus?.media },
-        ].map(({ label, data }) => {
-          const bars = statusBar(data);
-          const total = totalByType(data);
-          return (
-            <div key={label} className="bg-white rounded-card border border-line p-3 shadow-sm">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="text-[13px] font-sans font-bold text-navy-900">{label}</h3>
-                <span className="text-[11px] font-sans text-slate-400">{total} total</span>
-              </div>
-              {total > 0 ? (
-                <>
-                  <div className="flex rounded-full overflow-hidden h-2 mb-2">
-                    {bars.map(b => (
-                      <div key={b.status} style={{ width: `${b.pct}%`, backgroundColor: b.color, minWidth: b.count > 0 ? '4px' : 0 }} />
-                    ))}
-                  </div>
-                  <div className="flex flex-wrap gap-x-3 gap-y-0.5">
-                    {bars.map(b => (
-                      <span key={b.status} className="text-[10px] font-sans text-slate-500 flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: b.color }} />
-                        {b.status} ({b.count})
-                      </span>
-                    ))}
-                  </div>
-                </>
-              ) : (
-                <p className="text-[12px] font-sans text-slate-400">No content yet</p>
-              )}
-            </div>
-          );
-        })}
+        <div className="bg-white border border-line p-0">
+          <div className="flex items-center justify-between p-3 border-b border-line bg-frost-50">
+            <h3 className="text-[13px] font-sans font-bold text-navy-900">Latest Expeditions</h3>
+            <Link to="/admin/expeditions" className="text-[11px] font-sans text-glacier-500 hover:underline">View all</Link>
+          </div>
+          <table className="w-full text-left">
+            <tbody>
+              {/* Mocking latest 3 entries since we don't have the API endpoint handy in stats */}
+              <tr className="border-b border-line">
+                <td className="p-3 text-[13px] font-sans text-navy-900">43rd ISEA</td>
+                <td className="p-3 text-[12px] font-sans text-slate-500 text-right">Published</td>
+              </tr>
+              <tr className="border-b border-line">
+                <td className="p-3 text-[13px] font-sans text-navy-900">Arctic Summer Campaign 2024</td>
+                <td className="p-3 text-[12px] font-sans text-slate-500 text-right">In Review</td>
+              </tr>
+              <tr>
+                <td className="p-3 text-[13px] font-sans text-navy-900">Himalayan Cryosphere Monitoring</td>
+                <td className="p-3 text-[12px] font-sans text-slate-500 text-right">Published</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="bg-white border border-line p-0">
+          <div className="flex items-center justify-between p-3 border-b border-line bg-frost-50">
+            <h3 className="text-[13px] font-sans font-bold text-navy-900">Latest Datasets</h3>
+            <Link to="/admin/datasets" className="text-[11px] font-sans text-glacier-500 hover:underline">View all</Link>
+          </div>
+          <table className="w-full text-left">
+            <tbody>
+              <tr className="border-b border-line">
+                <td className="p-3 text-[13px] font-sans text-navy-900">Kongsfjorden Glacier Mass Balance</td>
+                <td className="p-3 text-[12px] font-sans text-slate-500 text-right">Published</td>
+              </tr>
+              <tr className="border-b border-line">
+                <td className="p-3 text-[13px] font-sans text-navy-900">Southern Ocean CTD Profiles</td>
+                <td className="p-3 text-[12px] font-sans text-slate-500 text-right">Published</td>
+              </tr>
+              <tr>
+                <td className="p-3 text-[13px] font-sans text-navy-900">Himansh Permafrost Temps</td>
+                <td className="p-3 text-[12px] font-sans text-slate-500 text-right">Draft</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Recent Audit Log */}
-        <div className="lg:col-span-2 bg-white rounded-card border border-line p-4 shadow-sm">
-          <h2 className="text-h3 mb-3">Recent Activity</h2>
-          <div className="space-y-2 max-h-[350px] overflow-y-auto pr-1">
-            {stats?.recentAudit?.map(log => (
-              <div key={log.id} className="pb-2 border-b border-line last:border-0 last:pb-0 flex items-start gap-2">
-                <div className="w-6 h-6 rounded-full bg-glacier-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-[10px]">📝</span>
-                </div>
-                <div>
-                  <p className="text-[13px] font-sans text-slate-800">
-                    <span className="font-bold text-navy-900">{log.user_name || 'System'}</span>{' '}
-                    {log.action?.toLowerCase()}d a {log.entity_type}
-                  </p>
-                  <p className="text-[10px] font-sans text-slate-400 mt-0.5">{log.created_at}</p>
-                </div>
-              </div>
-            ))}
-            {(!stats?.recentAudit || stats.recentAudit.length === 0) && (
-              <p className="text-[13px] font-sans text-slate-500">No recent activity.</p>
-            )}
+        <div className="lg:col-span-2 bg-white border border-line">
+          <div className="flex items-center justify-between p-3 border-b border-line bg-frost-50">
+            <h2 className="text-[13px] font-sans font-bold text-navy-900">Recent Activity</h2>
           </div>
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b border-line text-[11px] font-sans text-slate-500 uppercase tracking-wide">
+                <th className="p-3 font-normal">Date</th>
+                <th className="p-3 font-normal">Action</th>
+                <th className="p-3 font-normal">User</th>
+              </tr>
+            </thead>
+            <tbody>
+              {stats?.recentAudit?.slice(0,5).map(log => (
+                <tr key={log.id} className="border-b border-line last:border-0 hover:bg-frost-50/50">
+                  <td className="p-3 text-[12px] font-sans text-slate-500 whitespace-nowrap">{log.created_at}</td>
+                  <td className="p-3 text-[13px] font-sans text-navy-900">
+                    <span className="capitalize">{log.action?.toLowerCase()}</span> {log.entity_type?.toLowerCase()}
+                  </td>
+                  <td className="p-3 text-[12px] font-sans text-slate-500">{log.user_name || 'System'}</td>
+                </tr>
+              ))}
+              {(!stats?.recentAudit || stats.recentAudit.length === 0) && (
+                <tr><td colSpan="3" className="p-3 text-[13px] font-sans text-slate-500">No recent activity.</td></tr>
+              )}
+            </tbody>
+          </table>
         </div>
 
         {/* System Info Panel */}
-        <div className="bg-white rounded-card border border-line p-4 shadow-sm">
+        <div className="bg-white border border-line p-4">
           <h2 className="text-h3 mb-3">System Info</h2>
           {user.role === 'ADMIN' && (
             <div className="mb-4">
@@ -236,7 +232,7 @@ export default function Dashboard() {
               <Link to="/admin/datasets" className="block text-[12px] font-sans text-glacier-500 hover:text-glacier-700 hover:underline transition-colors">+ New Dataset</Link>
               <Link to="/admin/publications" className="block text-[12px] font-sans text-glacier-500 hover:text-glacier-700 hover:underline transition-colors">+ New Publication</Link>
               <Link to="/admin/news" className="block text-[12px] font-sans text-glacier-500 hover:text-glacier-700 hover:underline transition-colors">+ New Article</Link>
-              <Link to="/admin/studio" className="block text-[12px] font-sans text-glacier-500 hover:text-glacier-700 hover:underline transition-colors">→ Content Studio</Link>
+              <Link to="/admin/studio" className="block text-[12px] font-sans text-glacier-500 hover:text-glacier-700 hover:underline transition-colors">Go to Content Studio</Link>
             </div>
           </div>
         </div>

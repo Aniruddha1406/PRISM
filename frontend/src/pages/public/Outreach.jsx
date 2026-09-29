@@ -51,8 +51,8 @@ export default function Outreach() {
           {resources.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {resources.map(r => (
-                <div key={r.id} className="bg-white rounded-card border border-line p-3 hover:shadow-hover transition-shadow duration-150">
-                  <span className="text-[11px] font-sans border border-aurora-500 text-aurora-500 px-2 py-0.5 rounded-full">{r.resource_type}</span>
+                <div key={r.id} className="bg-white rounded-card border border-line p-3 hover: transition-shadow duration-150">
+                  <span className="text-[11px] font-sans border border-aurora-500 text-aurora-500 px-2 py-0.5 rounded-[2px]">{r.resource_type}</span>
                   <h3 className="text-[16px] font-serif font-bold text-navy-900 mt-2">{r.title}</h3>
                   <p className="text-[13px] font-sans text-slate-500 mt-1">{r.description}</p>
                   {r.target_audience && <p className="text-[12px] font-sans text-slate-500 mt-1">Audience: {r.target_audience}</p>}
@@ -76,7 +76,7 @@ export default function Outreach() {
                 <div className="flex items-baseline gap-2">
                   <h3 className="text-[16px] font-serif font-bold text-navy-900">{term.term}</h3>
                   {term.term_hi && <span className="text-[13px] font-sans text-slate-500">({term.term_hi})</span>}
-                  {term.category && <span className="text-[11px] font-sans border border-line text-slate-500 px-2 py-0.5 rounded-full">{term.category}</span>}
+                  {term.category && <span className="text-[11px] font-sans border border-line text-slate-500 px-2 py-0.5 rounded-[2px]">{term.category}</span>}
                 </div>
                 <p className="text-[14px] font-sans text-slate-800 mt-1 leading-relaxed">{term.definition}</p>
                 {term.definition_hi && <p className="text-[13px] font-sans text-slate-500 mt-1">{term.definition_hi}</p>}

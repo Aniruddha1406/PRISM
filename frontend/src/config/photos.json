@@ -1,0 +1,122 @@
+[
+  {
+    "filename": "background.png",
+    "id": "background",
+    "description": "Gentle penguins on snow with calm water and a large snow-covered mountain on the right under a pale blue sky.",
+    "orientation": "landscape",
+    "tones": "cool",
+    "focal_point": "20% 60%",
+    "alt": "Gentle penguins on snow with calm water and a large snow-covered mountain on the right under a pale blue sky.",
+    "credit": "Photo: PRISM",
+    "album": "Wildlife",
+    "placeholder": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAADQAwCdASoYAA4APzmIu1QvKSYjMAgB4CcJZQCdACHM77dBz3boUAAA/EjumvozDaH4aV8jCqo2JOsmmVGd0AAA"
+  },
+  {
+    "filename": "image.png",
+    "id": "orv_sagar_kanya",
+    "description": "Research vessel ORV Sagar Kanya navigating through icy waters.",
+    "orientation": "landscape",
+    "tones": "cool",
+    "focal_point": "50% 50%",
+    "alt": "Research vessel ORV Sagar Kanya navigating through icy waters.",
+    "credit": "Photo: PRISM",
+    "album": "Stations and field work",
+    "placeholder": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAAAQBACdASoYABIAPzWCslOvKKQkMAwB4CaJZwDLpCHfgYKyXSfyy6T0AAD+3nhFBoczmzkiIuPAhWwdRSFeX/yFIMtEYAAA"
+  },
+  {
+    "filename": "image copy.png",
+    "id": "sa_agulhas",
+    "description": "Large group of researchers posing in front of the red research vessel S.A. Agulhas.",
+    "orientation": "landscape",
+    "tones": "cool",
+    "focal_point": "50% 60%",
+    "alt": "Large group of researchers posing in front of the red research vessel S.A. Agulhas.",
+    "credit": "Photo: PRISM",
+    "album": "Stations and field work",
+    "placeholder": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAAAQBACdASoYABAAPzmIvlOvKScisAgB4CcJbACdAGt/d7rzikvYngTmAAD+8Gxa345m/uSpBu6A9j2pTKXmco4CXJOc36bsPzehn4TXDlHEJzxHN8mq9CnXNUddAAAA"
+  },
+  {
+    "filename": "image copy 2.png",
+    "id": "multinational_team",
+    "description": "Large group of international researchers in orange gear on a ship deck helipad holding flags.",
+    "orientation": "landscape",
+    "tones": "cool",
+    "focal_point": "50% 50%",
+    "alt": "Large group of international researchers in orange gear on a ship deck helipad holding flags.",
+    "credit": "Photo: PRISM",
+    "album": "Stations and field work",
+    "placeholder": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADQAwCdASoYAAwAPzmIvlSvKSajMAgB4CcJZAC7AB57PKW0ZtHeusAA/ld7lUC2RiyvG5SJhuz1Jluo3jhkYdD+6x8DpSv/zrMItLHhT0AAAA=="
+  },
+  {
+    "filename": "image copy 3.png",
+    "id": "ncpor_campus",
+    "description": "Main entrance gate and campus buildings of PRISM in Goa with palm trees.",
+    "orientation": "landscape",
+    "tones": "cool",
+    "focal_point": "50% 50%",
+    "alt": "Main entrance gate and campus buildings of PRISM in Goa with palm trees.",
+    "credit": "Photo: PRISM",
+    "album": "Stations and field work",
+    "placeholder": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADwAwCdASoYAA0APzmEuVOvKKWisAgB4CcJQBOgBCwHAYlC2x5hgtHgAP6x9o+Ws45UV+MtP6Y+5KwtYyp2751ZRjvaWPGvqtoAAA=="
+  },
+  {
+    "filename": "image copy 4.png",
+    "id": "ncpor_staff",
+    "description": "Large group of staff and researchers sitting on the lawn at the PRISM campus.",
+    "orientation": "landscape",
+    "tones": "cool",
+    "focal_point": "50% 50%",
+    "alt": "Large group of staff and researchers sitting on the lawn at the PRISM campus.",
+    "credit": "Photo: PRISM",
+    "album": "Stations and field work",
+    "placeholder": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAABwAwCdASoYAA0APzmKu1SvKaYjMAgB4CcJQBhQBEOeyqybPeAA/lbIrYvcuGMRZ4ZgioHMR3lfJ4dI/11v28+4AAA="
+  },
+  {
+    "filename": "image copy 5.png",
+    "id": "ice_drilling",
+    "description": "Two researchers setting up ice drilling equipment on a vast snow plain near red containers.",
+    "orientation": "landscape",
+    "tones": "cool",
+    "focal_point": "70% 60%",
+    "alt": "Two researchers setting up ice drilling equipment on a vast snow plain near red containers.",
+    "credit": "Photo: PRISM",
+    "album": "Stations and field work",
+    "placeholder": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADQAwCdASoYABIAPzmKu1OvKiYisAgB4CcJQBecAoNw0A6HCYBmHYAAn0cLJPuTBqFV8Z+chrYb4QQWP1xLPyqCzDCy6/RCy5UiFuxkmMAAAA=="
+  },
+  {
+    "filename": "image copy 6.png",
+    "id": "polar_team",
+    "description": "Team of researchers wearing extreme weather gear talking in a snowy polar landscape.",
+    "orientation": "landscape",
+    "tones": "cool",
+    "focal_point": "40% 50%",
+    "alt": "Team of researchers wearing extreme weather gear talking in a snowy polar landscape.",
+    "credit": "Photo: PRISM",
+    "album": "Stations and field work",
+    "placeholder": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAADwAwCdASoYAA4APzmIvlOvKScisAgB4CcJYgCdACICF4feRsq/aQgAAP5WpHskeYMqMk+abE6nZxe8z40fX31omevf7QhUzSYzn0AA"
+  },
+  {
+    "filename": "image copy 7.png",
+    "id": "south_pole_2010",
+    "description": "Team of the 1st Indian Scientific Expedition to the South Pole holding a banner and the Indian flag.",
+    "orientation": "landscape",
+    "tones": "cool",
+    "focal_point": "50% 60%",
+    "alt": "Team of the 1st Indian Scientific Expedition to the South Pole holding a banner and the Indian flag.",
+    "credit": "Photo: PRISM",
+    "album": "Antarctica",
+    "placeholder": "data:image/webp;base64,UklGRmYAAABXRUJQVlA4IFoAAAAQBACdASoYAA0APzmMvlUvKaajMAgB4CcJYgCdH8ADFE0YdS/7Yyn+AAD+cK/83+EYgm0/5OP8KHHufYAaviEUmV8p5+6+Kj1GJfkz0QWMfsuPu9HDHGPAAAA="
+  },
+  {
+    "filename": "image copy 8.png",
+    "id": "expedition_40",
+    "description": "Team in blue protective suits holding a banner for the 40th Indian Scientific Expedition to Antarctica on a ship.",
+    "orientation": "landscape",
+    "tones": "cool",
+    "focal_point": "50% 60%",
+    "alt": "Team in blue protective suits holding a banner for the 40th Indian Scientific Expedition to Antarctica on a ship.",
+    "credit": "Photo: PRISM",
+    "album": "Antarctica",
+    "placeholder": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAAAwAwCdASoYAA4ALvmczmclLy8vDwD4SxAABcz85p7kuFvAAP7TR2kkxscwpgAS37HAix4yeyxXPjMIKeNc33mEabgAAA=="
+  }
+]
