@@ -1,0 +1,35 @@
+{
+  "site_title": "NCPOR - National Centre for Polar and Ocean Research",
+  "govt_of_india": "Government of India",
+  "ministry": "Ministry of Earth Sciences",
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "expeditions": "Expeditions",
+    "datasets": "Data Repository",
+    "publications": "Publications",
+    "media": "Media Gallery",
+    "outreach": "Outreach and Education",
+    "news": "News and Events",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "India's Polar and Ocean Research",
+    "subtitle": "Advancing scientific knowledge of the Arctic, Antarctic, Southern Ocean, and Himalayan cryosphere through sustained research programmes and expeditions.",
+    "search_placeholder": "Search expeditions, datasets, publications, media..."
+  },
+  "footer": {
+    "ncpor_name": "National Centre for Polar and Ocean Research",
+    "address": "Headland Sada, Vasco da Gama, Goa 403804, India",
+    "copyright": "NCPOR, Ministry of Earth Sciences, Government of India. All rights reserved."
+  },
+  "labels": {
+    "view_all": "View all",
+    "search": "Search",
+    "loading": "Loading...",
+    "submit": "Submit",
+    "download": "Download",
+    "filter_by": "Filter by",
+    "all": "All"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "ncpor-polar-portal",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "dev": "npx concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "build": "cd frontend && npm run build",
+    "test": "cd frontend && npm test && cd ../backend && npm test",
+    "seed": "cd backend && node prisma/seed.js",
+    "lint": "cd frontend && npm run lint"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
