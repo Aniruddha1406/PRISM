@@ -55,11 +55,20 @@ router.post('/:id/download', async (req, res, next) => {
 });
 
 // POST /api/v1/datasets
-router.post('/', authenticate, authorize('SUPER_ADMIN','EDITOR','CONTRIBUTOR'), async (req, res, next) => {
+router.post('/', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
-    const db = await getDb();
-    const b = req.body; const id = uuidv4();
+    const db = await getDb(); const b = req.body; const id = uuidv4();
     const slug = (b.title||'dataset').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+
+    if (req.user.role === 'EDITOR') {
+      const pendingId = uuidv4();
+      const payload = JSON.stringify({ ...b, slug });
+      db.run('INSERT INTO pending_changes (id, entity_type, entity_id, action, payload, status, submitted_by) VALUES (?,?,?,?,?,?,?)',
+        [pendingId, 'dataset', null, 'CREATE', payload, 'PENDING', req.user.id]);
+      saveDb();
+      return res.status(201).json({ pending_id: pendingId, message: 'Submitted for admin approval.' });
+    }
+
     db.run(`INSERT INTO datasets (id,title,title_hi,slug,description,description_hi,discipline,parameters,spatial_coverage,temporal_coverage_start,temporal_coverage_end,format,file_size,file_path,licence,doi,citation,version,access_level,embargo_date,contact_name,contact_email,status,expedition_id,created_by) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
       [id,b.title,b.title_hi||null,slug,b.description||null,b.description_hi||null,b.discipline||null,b.parameters||null,b.spatial_coverage||null,b.temporal_coverage_start||null,b.temporal_coverage_end||null,b.format||null,b.file_size||null,b.file_path||null,b.licence||null,b.doi||null,b.citation||null,b.version||'1.0',b.access_level||'PUBLIC',b.embargo_date||null,b.contact_name||null,b.contact_email||null,'DRAFT',b.expedition_id||null,req.user.id]);
     saveDb();
@@ -68,10 +77,21 @@ router.post('/', authenticate, authorize('SUPER_ADMIN','EDITOR','CONTRIBUTOR'), 
 });
 
 // PUT /api/v1/datasets/:id
-router.put('/:id', authenticate, authorize('SUPER_ADMIN','EDITOR','CONTRIBUTOR'), async (req, res, next) => {
+router.put('/:id', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb();
-    const f = req.body; const sets=[]; const vals=[];
+    const f = req.body;
+
+    if (req.user.role === 'EDITOR') {
+      const pendingId = uuidv4();
+      const payload = JSON.stringify(f);
+      db.run('INSERT INTO pending_changes (id, entity_type, entity_id, action, payload, status, submitted_by) VALUES (?,?,?,?,?,?,?)',
+        [pendingId, 'dataset', req.params.id, 'UPDATE', payload, 'PENDING', req.user.id]);
+      saveDb();
+      return res.json({ pending_id: pendingId, message: 'Changes submitted for admin approval.' });
+    }
+
+    const sets=[]; const vals=[];
     const allowed = ['title','title_hi','description','description_hi','discipline','parameters','spatial_coverage','temporal_coverage_start','temporal_coverage_end','format','file_size','licence','doi','citation','version','access_level','embargo_date','contact_name','contact_email','status','expedition_id'];
     for (const k of allowed) { if (f[k]!==undefined) { sets.push(`${k}=?`); vals.push(f[k]); } }
     if (!sets.length) return res.status(400).json({ error: { code:'BAD_REQUEST', message:'No fields.' } });
@@ -83,7 +103,7 @@ router.put('/:id', authenticate, authorize('SUPER_ADMIN','EDITOR','CONTRIBUTOR')
 });
 
 // GET /api/v1/datasets/admin/all
-router.get('/admin/all', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANAGER','CONTRIBUTOR','REVIEWER'), async (req, res, next) => {
+router.get('/admin/all', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb();
     const rows = db.exec('SELECT d.*, e.title as expedition_title FROM datasets d LEFT JOIN expeditions e ON d.expedition_id = e.id ORDER BY d.created_at DESC');

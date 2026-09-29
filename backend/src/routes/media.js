@@ -54,7 +54,7 @@ router.get('/:slug', async (req, res, next) => {
 });
 
 // GET /api/v1/media/admin/all
-router.get('/admin/all', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANAGER','CONTRIBUTOR','REVIEWER'), async (req, res, next) => {
+router.get('/admin/all', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb();
     const rows = db.exec('SELECT m.*, a.name as album_name FROM media_items m LEFT JOIN albums a ON m.album_id = a.id ORDER BY m.created_at DESC');
@@ -63,12 +63,22 @@ router.get('/admin/all', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREAC
 });
 
 // POST /api/v1/media — create media item
-router.post('/', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANAGER','CONTRIBUTOR'), async (req, res, next) => {
+router.post('/', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb();
     const b = req.body;
     const id = uuidv4();
     const slug = (b.title || 'media').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') + '-' + id.slice(0,8);
+
+    if (req.user.role === 'EDITOR') {
+      const pendingId = uuidv4();
+      const payload = JSON.stringify({ ...b, slug });
+      db.run('INSERT INTO pending_changes (id, entity_type, entity_id, action, payload, status, submitted_by) VALUES (?,?,?,?,?,?,?)',
+        [pendingId, 'media', null, 'CREATE', payload, 'PENDING', req.user.id]);
+      saveDb();
+      return res.status(201).json({ pending_id: pendingId, message: 'Submitted for admin approval.' });
+    }
+
     db.run(`INSERT INTO media_items (id,title,title_hi,slug,description,description_hi,media_type,file_path,thumbnail_path,original_filename,mime_type,file_size,width,height,duration,credit,location,taken_date,licence,resolution,album_id,expedition_id,status,created_by) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
       [id, b.title, b.title_hi||null, slug, b.description||null, b.description_hi||null, b.media_type||'PHOTO', b.file_path||null, b.thumbnail_path||null, b.original_filename||null, b.mime_type||null, b.file_size||null, b.width||null, b.height||null, b.duration||null, b.credit||null, b.location||null, b.taken_date||null, b.licence||null, b.resolution||null, b.album_id||null, b.expedition_id||null, 'DRAFT', req.user.id]);
     saveDb();
@@ -77,10 +87,20 @@ router.post('/', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANAGE
 });
 
 // PUT /api/v1/media/:id
-router.put('/:id', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANAGER','CONTRIBUTOR'), async (req, res, next) => {
+router.put('/:id', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb();
     const fields = req.body;
+
+    if (req.user.role === 'EDITOR') {
+      const pendingId = uuidv4();
+      const payload = JSON.stringify(fields);
+      db.run('INSERT INTO pending_changes (id, entity_type, entity_id, action, payload, status, submitted_by) VALUES (?,?,?,?,?,?,?)',
+        [pendingId, 'media', req.params.id, 'UPDATE', payload, 'PENDING', req.user.id]);
+      saveDb();
+      return res.json({ pending_id: pendingId, message: 'Changes submitted for admin approval.' });
+    }
+
     const sets = []; const vals = [];
     const allowed = ['title','title_hi','description','description_hi','media_type','credit','location','taken_date','licence','resolution','album_id','expedition_id','status'];
     for (const k of allowed) { if (fields[k] !== undefined) { sets.push(`${k} = ?`); vals.push(fields[k]); } }
@@ -103,7 +123,7 @@ router.get('/albums/list', async (req, res, next) => {
 });
 
 // POST /api/v1/albums
-router.post('/albums', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANAGER'), async (req, res, next) => {
+router.post('/albums', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb();
     const { name, name_hi, description, description_hi } = req.body;

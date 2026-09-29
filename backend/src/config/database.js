@@ -35,7 +35,23 @@ async function getDb() {
       email TEXT UNIQUE NOT NULL,
       password TEXT NOT NULL,
       name TEXT NOT NULL,
-      role TEXT NOT NULL DEFAULT 'REVIEWER' CHECK(role IN ('SUPER_ADMIN','EDITOR','OUTREACH_MANAGER','CONTRIBUTOR','REVIEWER')),
+      role TEXT NOT NULL DEFAULT 'MEDIA' CHECK(role IN ('ADMIN','EDITOR','MEDIA')),
+      created_at TEXT DEFAULT (datetime('now')),
+      updated_at TEXT DEFAULT (datetime('now'))
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS pending_changes (
+      id TEXT PRIMARY KEY,
+      entity_type TEXT NOT NULL,
+      entity_id TEXT,
+      action TEXT NOT NULL CHECK(action IN ('CREATE','UPDATE')),
+      payload TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'PENDING' CHECK(status IN ('PENDING','APPROVED','REJECTED')),
+      submitted_by TEXT NOT NULL REFERENCES users(id),
+      reviewed_by TEXT REFERENCES users(id),
+      review_note TEXT,
       created_at TEXT DEFAULT (datetime('now')),
       updated_at TEXT DEFAULT (datetime('now'))
     )
@@ -361,6 +377,8 @@ async function getDb() {
   db.run('CREATE INDEX IF NOT EXISTS idx_media_status ON media_items(status)');
   db.run('CREATE INDEX IF NOT EXISTS idx_news_status ON news_articles(status)');
   db.run('CREATE INDEX IF NOT EXISTS idx_audit_entity ON audit_log(entity_type, entity_id)');
+  db.run('CREATE INDEX IF NOT EXISTS idx_pending_status ON pending_changes(status)');
+  db.run('CREATE INDEX IF NOT EXISTS idx_pending_submitted_by ON pending_changes(submitted_by)');
 
   saveDb();
   return db;

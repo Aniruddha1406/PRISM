@@ -1,122 +1,109 @@
 import { useState, useEffect } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import api from '../../api/client';
 
-export default function AdminDashboard() {
+export default function Dashboard() {
+  const { user } = useOutletContext();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function load() {
-      try { const data = await api.get('/stats/admin'); setStats(data); } catch { setStats(null); }
+    async function fetchStats() {
+      try {
+        const data = await api.get('/stats/admin');
+        setStats(data);
+      } catch (err) { console.error('Failed to load stats', err); }
       setLoading(false);
     }
-    load();
+    fetchStats();
   }, []);
 
   if (loading) return <p className="font-sans text-slate-500">Loading dashboard...</p>;
-  if (!stats) return <p className="font-sans text-slate-500">Unable to load analytics.</p>;
+
+  // Count active items
+  const countPublished = (statusArray) => {
+    if (!statusArray) return 0;
+    const item = statusArray.find(s => s.status === 'PUBLISHED');
+    return item ? item.count : 0;
+  };
+
+  const pubExpeditions = countPublished(stats?.contentByStatus?.expeditions);
+  const pubDatasets = countPublished(stats?.contentByStatus?.datasets);
+  const pubPublications = countPublished(stats?.contentByStatus?.publications);
+  const pubMedia = countPublished(stats?.contentByStatus?.media);
 
   return (
     <div>
-      <h1 className="text-h1 mb-4">Dashboard</h1>
+      <h1 className="text-h1 mb-2">Welcome, {user.name}</h1>
+      <p className="text-[14px] font-sans text-slate-500 mb-6">
+        {user.role === 'ADMIN' ? 'You have full administrative access.' : 'You have editor access. Your content changes will require admin approval.'}
+      </p>
 
-      {/* Summary cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
-        <StatCard label="Expeditions" items={stats.contentByStatus?.expeditions} />
-        <StatCard label="Datasets" items={stats.contentByStatus?.datasets} />
-        <StatCard label="Publications" items={stats.contentByStatus?.publications} />
-        <StatCard label="Media Items" items={stats.contentByStatus?.media} />
+      {/* Overview Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+        <div className="bg-white p-4 rounded-card border border-line shadow-sm">
+          <p className="text-[12px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">Pending Approvals</p>
+          <p className="text-[28px] font-serif font-bold text-navy-900">{stats?.totalPending || 0}</p>
+        </div>
+        <div className="bg-white p-4 rounded-card border border-line shadow-sm">
+          <p className="text-[12px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">Active Expeditions</p>
+          <p className="text-[28px] font-serif font-bold text-navy-900">{pubExpeditions}</p>
+        </div>
+        <div className="bg-white p-4 rounded-card border border-line shadow-sm">
+          <p className="text-[12px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">Public Datasets</p>
+          <p className="text-[28px] font-serif font-bold text-navy-900">{pubDatasets}</p>
+        </div>
+        <div className="bg-white p-4 rounded-card border border-line shadow-sm">
+          <p className="text-[12px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">Publications</p>
+          <p className="text-[28px] font-serif font-bold text-navy-900">{pubPublications}</p>
+        </div>
+        <div className="bg-white p-4 rounded-card border border-line shadow-sm">
+          <p className="text-[12px] font-sans text-slate-500 mb-1 uppercase tracking-wider font-bold">Media Items</p>
+          <p className="text-[28px] font-serif font-bold text-navy-900">{pubMedia}</p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-        {/* Expeditions by Region */}
-        <div className="bg-white rounded-card border border-line p-4">
-          <h2 className="text-h3 mb-3">Expeditions by Region</h2>
-          {(stats.expeditionsByRegion || []).map(r => (
-            <div key={r.region} className="flex items-center justify-between py-1 border-b border-line last:border-0">
-              <span className="text-[14px] font-sans text-slate-800">{r.region}</span>
-              <div className="flex items-center gap-2">
-                <div className="w-[100px] h-2 bg-frost-50 rounded-full overflow-hidden">
-                  <div className="h-full bg-glacier-700 rounded-full" style={{ width: `${Math.min(100, (r.count / 5) * 100)}%` }} />
-                </div>
-                <span className="text-[13px] font-sans text-slate-500 w-6 text-right">{r.count}</span>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Recent Audit Log */}
+        <div className="bg-white rounded-card border border-line p-4 shadow-sm h-[400px] flex flex-col">
+          <h2 className="text-h2 mb-4">Recent Activity</h2>
+          <div className="overflow-y-auto flex-grow pr-2 space-y-3">
+            {stats?.recentAudit?.map(log => (
+              <div key={log.id} className="pb-3 border-b border-line last:border-0 last:pb-0">
+                <p className="text-[13px] font-sans text-slate-800">
+                  <span className="font-bold text-navy-900">{log.user_name || 'System'}</span> {log.action.toLowerCase()}d a {log.entity_type}
+                </p>
+                <p className="text-[11px] font-sans text-slate-400 mt-1">{log.created_at}</p>
               </div>
-            </div>
-          ))}
+            ))}
+            {(!stats?.recentAudit || stats.recentAudit.length === 0) && (
+              <p className="text-[13px] font-sans text-slate-500">No recent activity.</p>
+            )}
+          </div>
         </div>
 
-        {/* Users by Role */}
-        <div className="bg-white rounded-card border border-line p-4">
-          <h2 className="text-h3 mb-3">Users by Role</h2>
-          {(stats.usersByRole || []).map(r => (
-            <div key={r.role} className="flex items-center justify-between py-1 border-b border-line last:border-0">
-              <span className="text-[14px] font-sans text-slate-800">{r.role}</span>
-              <span className="text-[13px] font-sans text-glacier-500 font-bold">{r.count}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Content Studio Stats */}
-        <div className="bg-white rounded-card border border-line p-4">
-          <h2 className="text-h3 mb-3">Content Studio</h2>
-          {(stats.studioByStatus || []).length > 0 ? (
-            stats.studioByStatus.map(s => (
-              <div key={s.status} className="flex items-center justify-between py-1 border-b border-line last:border-0">
-                <span className="text-[14px] font-sans text-slate-800">{s.status}</span>
-                <span className="text-[13px] font-sans text-aurora-500 font-bold">{s.count}</span>
+        {/* Admin Info / Quick Links */}
+        <div className="bg-white rounded-card border border-line p-4 shadow-sm">
+          <h2 className="text-h2 mb-4">System Information</h2>
+          {user.role === 'ADMIN' && (
+            <div className="mb-6">
+              <h3 className="text-[14px] font-sans font-bold text-slate-800 mb-2">Users by Role</h3>
+              <div className="space-y-2">
+                {stats?.usersByRole?.map(r => (
+                  <div key={r.role} className="flex justify-between items-center text-[13px] font-sans">
+                    <span className="text-slate-600">{r.role}</span>
+                    <span className="font-mono bg-frost-50 px-2 py-0.5 rounded border border-line">{r.count}</span>
+                  </div>
+                ))}
               </div>
-            ))
-          ) : (
-            <p className="text-[13px] font-sans text-slate-500">No generated content yet.</p>
+            </div>
           )}
-        </div>
-
-        {/* Downloads */}
-        <div className="bg-white rounded-card border border-line p-4">
-          <h2 className="text-h3 mb-3">Dataset Downloads</h2>
-          <p className="text-[28px] font-serif font-bold text-navy-900">{stats.totalDownloads}</p>
-          <p className="text-[13px] font-sans text-slate-500">Total downloads recorded</p>
+          <div>
+             <h3 className="text-[14px] font-sans font-bold text-slate-800 mb-2">Downloads</h3>
+             <p className="text-[13px] font-sans text-slate-600">Total dataset downloads: <span className="font-bold text-navy-900">{stats?.totalDownloads || 0}</span></p>
+          </div>
         </div>
       </div>
-
-      {/* Recent Audit Log */}
-      <div className="bg-white rounded-card border border-line p-4">
-        <h2 className="text-h3 mb-3">Recent Activity</h2>
-        {(stats.recentAudit || []).length > 0 ? (
-          <table className="w-full text-left">
-            <thead><tr className="border-b border-line">
-              <th className="text-[12px] font-sans text-slate-500 py-1 px-2">User</th>
-              <th className="text-[12px] font-sans text-slate-500 py-1 px-2">Action</th>
-              <th className="text-[12px] font-sans text-slate-500 py-1 px-2">Entity</th>
-              <th className="text-[12px] font-sans text-slate-500 py-1 px-2">Date</th>
-            </tr></thead>
-            <tbody>
-              {stats.recentAudit.map(log => (
-                <tr key={log.id} className="border-b border-line last:border-0">
-                  <td className="text-[13px] font-sans text-slate-800 py-1 px-2">{log.user_name}</td>
-                  <td className="text-[13px] font-sans text-slate-800 py-1 px-2">{log.action}</td>
-                  <td className="text-[13px] font-sans text-slate-500 py-1 px-2">{log.entity_type}</td>
-                  <td className="text-[12px] font-sans text-slate-500 py-1 px-2">{log.created_at}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p className="text-[13px] font-sans text-slate-500">No audit log entries yet.</p>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function StatCard({ label, items }) {
-  const total = (items || []).reduce((sum, i) => sum + (i.count || 0), 0);
-  const published = (items || []).find(i => i.status === 'PUBLISHED')?.count || 0;
-  return (
-    <div className="bg-white rounded-card border border-line p-3">
-      <p className="text-[12px] font-sans text-slate-500">{label}</p>
-      <p className="text-[28px] font-serif font-bold text-navy-900">{total}</p>
-      <p className="text-[11px] font-sans text-glacier-500">{published} published</p>
     </div>
   );
 }

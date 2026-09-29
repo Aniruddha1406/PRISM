@@ -45,10 +45,20 @@ router.get('/export/ical', async (req, res, next) => {
 });
 
 // POST /api/v1/events
-router.post('/', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANAGER'), async (req, res, next) => {
+router.post('/', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb(); const b=req.body; const id=uuidv4();
     const slug = (b.title||'event').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+
+    if (req.user.role === 'EDITOR') {
+      const pendingId = uuidv4();
+      const payload = JSON.stringify({ ...b, slug });
+      db.run('INSERT INTO pending_changes (id, entity_type, entity_id, action, payload, status, submitted_by) VALUES (?,?,?,?,?,?,?)',
+        [pendingId, 'event', null, 'CREATE', payload, 'PENDING', req.user.id]);
+      saveDb();
+      return res.status(201).json({ pending_id: pendingId, message: 'Submitted for admin approval.' });
+    }
+
     db.run(`INSERT INTO events (id,title,title_hi,slug,description,description_hi,location,start_date,end_date,event_type,status,created_by) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`,
       [id,b.title,b.title_hi||null,slug,b.description||null,b.description_hi||null,b.location||null,b.start_date||null,b.end_date||null,b.event_type||null,'DRAFT',req.user.id]);
     saveDb(); res.status(201).json({ id, slug });

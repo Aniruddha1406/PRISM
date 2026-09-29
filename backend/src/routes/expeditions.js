@@ -98,14 +98,25 @@ router.get('/:slug', async (req, res, next) => {
   } catch (err) { next(err); }
 });
 
-// POST /api/v1/expeditions — admin create
-router.post('/', authenticate, authorize('SUPER_ADMIN', 'EDITOR', 'CONTRIBUTOR'), async (req, res, next) => {
+// POST /api/v1/expeditions — admin/editor create
+router.post('/', authenticate, authorize('ADMIN', 'EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb();
     const { title, title_hi, summary, summary_hi, description, description_hi, region, station_id, start_date, end_date, year, expedition_status, objectives, objectives_hi } = req.body;
     const id = uuidv4();
     const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
+    if (req.user.role === 'EDITOR') {
+      // Editor: save to pending_changes for admin approval
+      const pendingId = uuidv4();
+      const payload = JSON.stringify({ title, title_hi, slug, summary, summary_hi, description, description_hi, region, station_id, start_date, end_date, year, expedition_status: expedition_status || 'PLANNED', objectives, objectives_hi });
+      db.run('INSERT INTO pending_changes (id, entity_type, entity_id, action, payload, status, submitted_by) VALUES (?,?,?,?,?,?,?)',
+        [pendingId, 'expedition', null, 'CREATE', payload, 'PENDING', req.user.id]);
+      saveDb();
+      return res.status(201).json({ pending_id: pendingId, message: 'Submitted for admin approval.' });
+    }
+
+    // Admin: create directly
     db.run(`INSERT INTO expeditions (id,title,title_hi,slug,summary,summary_hi,description,description_hi,region,station_id,start_date,end_date,year,status,expedition_status,objectives,objectives_hi,created_by) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
       [id, title, title_hi||null, slug, summary||null, summary_hi||null, description||null, description_hi||null, region, station_id||null, start_date||null, end_date||null, year||null, 'DRAFT', expedition_status||'PLANNED', objectives||null, objectives_hi||null, req.user.id]);
     saveDb();
@@ -113,11 +124,23 @@ router.post('/', authenticate, authorize('SUPER_ADMIN', 'EDITOR', 'CONTRIBUTOR')
   } catch (err) { next(err); }
 });
 
-// PUT /api/v1/expeditions/:id — admin update
-router.put('/:id', authenticate, authorize('SUPER_ADMIN', 'EDITOR', 'CONTRIBUTOR'), async (req, res, next) => {
+// PUT /api/v1/expeditions/:id — admin/editor update
+router.put('/:id', authenticate, authorize('ADMIN', 'EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb();
     const fields = req.body;
+
+    if (req.user.role === 'EDITOR') {
+      // Editor: save to pending_changes for admin approval
+      const pendingId = uuidv4();
+      const payload = JSON.stringify(fields);
+      db.run('INSERT INTO pending_changes (id, entity_type, entity_id, action, payload, status, submitted_by) VALUES (?,?,?,?,?,?,?)',
+        [pendingId, 'expedition', req.params.id, 'UPDATE', payload, 'PENDING', req.user.id]);
+      saveDb();
+      return res.json({ pending_id: pendingId, message: 'Changes submitted for admin approval.' });
+    }
+
+    // Admin: update directly
     const sets = [];
     const vals = [];
     const allowed = ['title','title_hi','summary','summary_hi','description','description_hi','region','station_id','start_date','end_date','year','status','expedition_status','objectives','objectives_hi'];
@@ -134,7 +157,7 @@ router.put('/:id', authenticate, authorize('SUPER_ADMIN', 'EDITOR', 'CONTRIBUTOR
 });
 
 // GET /api/v1/expeditions/admin/all — admin list (all statuses)
-router.get('/admin/all', authenticate, authorize('SUPER_ADMIN', 'EDITOR', 'OUTREACH_MANAGER', 'CONTRIBUTOR', 'REVIEWER'), async (req, res, next) => {
+router.get('/admin/all', authenticate, authorize('ADMIN', 'EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb();
     const results = db.exec('SELECT e.*, s.name as station_name FROM expeditions e LEFT JOIN stations s ON e.station_id = s.id ORDER BY e.created_at DESC');

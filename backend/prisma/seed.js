@@ -13,7 +13,7 @@ async function seed() {
 
   // Clear existing data
   const tables = [
-    'audit_log', 'dataset_download_log', 'scheduled_posts', 'generated_content',
+    'pending_changes', 'audit_log', 'dataset_download_log', 'scheduled_posts', 'generated_content',
     'question_submissions', 'glossary_terms', 'education_resources', 'events',
     'news_articles', 'media_tags', 'tags', 'media_items', 'albums',
     'expedition_members', 'publications', 'datasets', 'expeditions', 'stations', 'users'
@@ -32,12 +32,12 @@ async function seed() {
   };
 
   const userList = [
-    [users.admin, 'admin@ncpor.gov.in', hashedPw, 'Dr. Ravichandran M.', 'SUPER_ADMIN'],
+    [users.admin, 'admin@ncpor.gov.in', hashedPw, 'Dr. Ravichandran M.', 'ADMIN'],
     [users.editor, 'editor@ncpor.gov.in', hashedPw, 'Dr. Thamban Meloth', 'EDITOR'],
-    [users.outreach, 'outreach@ncpor.gov.in', hashedPw, 'Priya Sharma', 'OUTREACH_MANAGER'],
-    [users.contributor1, 'contributor@ncpor.gov.in', hashedPw, 'Dr. Rahul Mohan', 'CONTRIBUTOR'],
-    [users.contributor2, 'scientist@ncpor.gov.in', hashedPw, 'Dr. Anoop Mahajan', 'CONTRIBUTOR'],
-    [users.reviewer, 'reviewer@ncpor.gov.in', hashedPw, 'Sanjay Kumar', 'REVIEWER'],
+    [users.outreach, 'outreach@ncpor.gov.in', hashedPw, 'Priya Sharma', 'EDITOR'],
+    [users.contributor1, 'contributor@ncpor.gov.in', hashedPw, 'Dr. Rahul Mohan', 'EDITOR'],
+    [users.contributor2, 'scientist@ncpor.gov.in', hashedPw, 'Dr. Anoop Mahajan', 'EDITOR'],
+    [users.reviewer, 'media@ncpor.gov.in', hashedPw, 'Sanjay Kumar', 'MEDIA'],
   ];
   userList.forEach(u => db.run('INSERT INTO users (id,email,password,name,role) VALUES (?,?,?,?,?)', u));
 

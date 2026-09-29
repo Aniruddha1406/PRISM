@@ -81,7 +81,7 @@ function annotateFactsFromSource(text, source) {
 }
 
 // POST /api/v1/studio/generate — generate content drafts
-router.post('/generate', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANAGER','CONTRIBUTOR'), async (req, res, next) => {
+router.post('/generate', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb();
     const { source_type, source_id, platforms } = req.body;
@@ -116,7 +116,7 @@ router.post('/generate', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREAC
 });
 
 // GET /api/v1/studio/content — list generated content
-router.get('/content', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANAGER','CONTRIBUTOR','REVIEWER'), async (req, res, next) => {
+router.get('/content', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb();
     const { source_type, source_id, status } = req.query;
@@ -132,7 +132,7 @@ router.get('/content', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_
 });
 
 // PUT /api/v1/studio/content/:id/approve
-router.put('/content/:id/approve', authenticate, authorize('SUPER_ADMIN','OUTREACH_MANAGER'), async (req, res, next) => {
+router.put('/content/:id/approve', authenticate, authorize('ADMIN'), async (req, res, next) => {
   try {
     const db = await getDb();
     db.run("UPDATE generated_content SET status='APPROVED', approved_by=?, updated_at=datetime('now') WHERE id=?", [req.user.id, req.params.id]);
@@ -141,7 +141,7 @@ router.put('/content/:id/approve', authenticate, authorize('SUPER_ADMIN','OUTREA
 });
 
 // PUT /api/v1/studio/content/:id/reject
-router.put('/content/:id/reject', authenticate, authorize('SUPER_ADMIN','OUTREACH_MANAGER'), async (req, res, next) => {
+router.put('/content/:id/reject', authenticate, authorize('ADMIN'), async (req, res, next) => {
   try {
     const db = await getDb();
     db.run("UPDATE generated_content SET status='REJECTED', updated_at=datetime('now') WHERE id=?", [req.params.id]);
@@ -150,7 +150,7 @@ router.put('/content/:id/reject', authenticate, authorize('SUPER_ADMIN','OUTREAC
 });
 
 // POST /api/v1/studio/schedule
-router.post('/schedule', authenticate, authorize('SUPER_ADMIN','OUTREACH_MANAGER'), async (req, res, next) => {
+router.post('/schedule', authenticate, authorize('ADMIN'), async (req, res, next) => {
   try {
     const db = await getDb();
     const { generated_content_id, platform, scheduled_date } = req.body;
@@ -162,7 +162,7 @@ router.post('/schedule', authenticate, authorize('SUPER_ADMIN','OUTREACH_MANAGER
 });
 
 // GET /api/v1/studio/schedule
-router.get('/schedule', authenticate, authorize('SUPER_ADMIN','OUTREACH_MANAGER','EDITOR'), async (req, res, next) => {
+router.get('/schedule', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb();
     const rows = db.exec('SELECT sp.*, gc.content, gc.platform as content_platform, gc.language FROM scheduled_posts sp LEFT JOIN generated_content gc ON sp.generated_content_id = gc.id ORDER BY sp.scheduled_date');

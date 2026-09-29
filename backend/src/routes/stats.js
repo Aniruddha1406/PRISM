@@ -23,7 +23,7 @@ router.get('/', async (req, res, next) => {
 });
 
 // GET /api/v1/stats/admin — admin analytics
-router.get('/admin', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANAGER'), async (req, res, next) => {
+router.get('/admin', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb();
     // Content by status
@@ -55,6 +55,10 @@ router.get('/admin', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MA
     // Generated content stats
     const studioByStatus = parseRows(db.exec('SELECT status, COUNT(*) as count FROM generated_content GROUP BY status'));
 
+    // Pending approvals count
+    const pendingCount = db.exec("SELECT COUNT(*) FROM pending_changes WHERE status='PENDING'");
+    const totalPending = pendingCount.length ? pendingCount[0].values[0][0] : 0;
+
     res.json({
       contentByStatus: { expeditions: expByStatus, datasets: dsByStatus, publications: pubByStatus, media: mediaByStatus, news: newsByStatus },
       expeditionsByRegion: expByRegion,
@@ -64,6 +68,7 @@ router.get('/admin', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MA
       recentAudit,
       usersByRole,
       studioByStatus,
+      totalPending,
     });
   } catch (err) { next(err); }
 });

@@ -48,7 +48,7 @@ router.post('/questions', async (req, res, next) => {
 });
 
 // GET /api/v1/education/questions — admin list
-router.get('/questions/all', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANAGER'), async (req, res, next) => {
+router.get('/questions/all', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb();
     const rows = db.exec('SELECT * FROM question_submissions ORDER BY created_at DESC');
@@ -57,10 +57,20 @@ router.get('/questions/all', authenticate, authorize('SUPER_ADMIN','EDITOR','OUT
 });
 
 // POST /api/v1/education
-router.post('/', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANAGER','CONTRIBUTOR'), async (req, res, next) => {
+router.post('/', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb(); const b=req.body; const id=uuidv4();
     const slug = (b.title||'resource').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+
+    if (req.user.role === 'EDITOR') {
+      const pendingId = uuidv4();
+      const payload = JSON.stringify({ ...b, slug });
+      db.run('INSERT INTO pending_changes (id, entity_type, entity_id, action, payload, status, submitted_by) VALUES (?,?,?,?,?,?,?)',
+        [pendingId, 'education', null, 'CREATE', payload, 'PENDING', req.user.id]);
+      saveDb();
+      return res.status(201).json({ pending_id: pendingId, message: 'Submitted for admin approval.' });
+    }
+
     db.run(`INSERT INTO education_resources (id,title,title_hi,slug,description,description_hi,resource_type,file_path,target_audience,status,created_by) VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
       [id,b.title,b.title_hi||null,slug,b.description||null,b.description_hi||null,b.resource_type||'TEACHING_KIT',b.file_path||null,b.target_audience||null,'DRAFT',req.user.id]);
     saveDb(); res.status(201).json({ id, slug });
