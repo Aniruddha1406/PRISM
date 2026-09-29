@@ -25,8 +25,16 @@ export default function AdminLayout() {
   if (loading) return <div className="min-h-screen bg-frost-50 flex items-center justify-center"><p className="font-sans text-slate-500">Loading...</p></div>;
   if (!user) return null;
 
-  const navItems = [
+  // Redirect MEDIA users away from admin
+  if (user.role === 'MEDIA') {
+    navigate('/portal');
+    return null;
+  }
+
+  // Role-based nav items
+  const adminNavItems = [
     { path: '/admin', label: 'Dashboard' },
+    { path: '/admin/approvals', label: 'Pending Approvals' },
     { path: '/admin/expeditions', label: 'Expeditions' },
     { path: '/admin/datasets', label: 'Datasets' },
     { path: '/admin/publications', label: 'Publications' },
@@ -35,6 +43,22 @@ export default function AdminLayout() {
     { path: '/admin/studio', label: 'Content Studio' },
     { path: '/admin/users', label: 'Users' },
   ];
+
+  const editorNavItems = [
+    { path: '/admin', label: 'Dashboard' },
+    { path: '/admin/my-submissions', label: 'My Submissions' },
+    { path: '/admin/expeditions', label: 'Expeditions' },
+    { path: '/admin/datasets', label: 'Datasets' },
+    { path: '/admin/publications', label: 'Publications' },
+    { path: '/admin/media', label: 'Media Library' },
+    { path: '/admin/news', label: 'News' },
+    { path: '/admin/studio', label: 'Content Studio' },
+  ];
+
+  const navItems = user.role === 'ADMIN' ? adminNavItems : editorNavItems;
+
+  const roleLabel = user.role === 'ADMIN' ? 'Admin' : 'Editor';
+  const roleColor = user.role === 'ADMIN' ? 'bg-navy-900' : 'bg-glacier-700';
 
   return (
     <div className="min-h-screen bg-frost-50 flex">
@@ -55,8 +79,10 @@ export default function AdminLayout() {
           })}
         </nav>
         <div className="p-3 mt-auto border-t border-white/10">
-          <p className="text-[12px] font-sans text-white/50">{user.name}</p>
-          <p className="text-[11px] font-sans text-white/30">{user.role}</p>
+          <div className="flex items-center gap-2 mb-1">
+            <p className="text-[12px] font-sans text-white/50">{user.name}</p>
+            <span className={`text-[9px] font-sans text-white px-1.5 py-0.5 rounded-full ${roleColor}`}>{roleLabel}</span>
+          </div>
           <button onClick={handleLogout} className="text-[12px] font-sans text-white/50 hover:text-white mt-1 transition-colors duration-150">Logout</button>
         </div>
       </aside>

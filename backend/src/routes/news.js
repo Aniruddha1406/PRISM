@@ -31,10 +31,20 @@ router.get('/:slug', async (req, res, next) => {
 });
 
 // POST /api/v1/news
-router.post('/', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANAGER'), async (req, res, next) => {
+router.post('/', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb(); const b=req.body; const id=uuidv4();
     const slug = (b.title||'news').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+
+    if (req.user.role === 'EDITOR') {
+      const pendingId = uuidv4();
+      const payload = JSON.stringify({ ...b, slug });
+      db.run('INSERT INTO pending_changes (id, entity_type, entity_id, action, payload, status, submitted_by) VALUES (?,?,?,?,?,?,?)',
+        [pendingId, 'news', null, 'CREATE', payload, 'PENDING', req.user.id]);
+      saveDb();
+      return res.status(201).json({ pending_id: pendingId, message: 'Submitted for admin approval.' });
+    }
+
     db.run(`INSERT INTO news_articles (id,title,title_hi,slug,summary,summary_hi,body,body_hi,publish_date,status,created_by) VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
       [id,b.title,b.title_hi||null,slug,b.summary||null,b.summary_hi||null,b.body||null,b.body_hi||null,b.publish_date||null,'DRAFT',req.user.id]);
     saveDb(); res.status(201).json({ id, slug });
@@ -42,9 +52,20 @@ router.post('/', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANAGE
 });
 
 // PUT /api/v1/news/:id
-router.put('/:id', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANAGER'), async (req, res, next) => {
+router.put('/:id', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
-    const db = await getDb(); const f=req.body; const sets=[]; const vals=[];
+    const db = await getDb(); const f=req.body;
+
+    if (req.user.role === 'EDITOR') {
+      const pendingId = uuidv4();
+      const payload = JSON.stringify(f);
+      db.run('INSERT INTO pending_changes (id, entity_type, entity_id, action, payload, status, submitted_by) VALUES (?,?,?,?,?,?,?)',
+        [pendingId, 'news', req.params.id, 'UPDATE', payload, 'PENDING', req.user.id]);
+      saveDb();
+      return res.json({ pending_id: pendingId, message: 'Changes submitted for admin approval.' });
+    }
+
+    const sets=[]; const vals=[];
     const allowed = ['title','title_hi','summary','summary_hi','body','body_hi','publish_date','status'];
     for (const k of allowed) { if(f[k]!==undefined){sets.push(`${k}=?`);vals.push(f[k]);} }
     if(!sets.length) return res.status(400).json({error:{code:'BAD_REQUEST',message:'No fields.'}});
@@ -54,7 +75,7 @@ router.put('/:id', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANA
   } catch (err) { next(err); }
 });
 
-router.get('/admin/all', authenticate, authorize('SUPER_ADMIN','EDITOR','OUTREACH_MANAGER','CONTRIBUTOR','REVIEWER'), async (req, res, next) => {
+router.get('/admin/all', authenticate, authorize('ADMIN','EDITOR'), async (req, res, next) => {
   try {
     const db = await getDb();
     const rows = db.exec('SELECT * FROM news_articles ORDER BY created_at DESC');

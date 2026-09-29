@@ -3,11 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { authApi } from '../../api/client';
 
 const DEMO_ACCOUNTS = [
-  { email: 'admin@ncpor.gov.in', name: 'Dr. Ravichandran M.', role: 'SUPER_ADMIN', label: 'Super Admin', desc: 'Full access — users, settings, all content, analytics', color: 'bg-navy-900' },
-  { email: 'editor@ncpor.gov.in', name: 'Dr. Thamban Meloth', role: 'EDITOR', label: 'Editor', desc: 'Create, edit, approve and publish all content types', color: 'bg-glacier-700' },
-  { email: 'outreach@ncpor.gov.in', name: 'Priya Sharma', role: 'OUTREACH_MANAGER', label: 'Outreach Manager', desc: 'Content Studio, social media drafts, approve posts, news/events', color: 'bg-aurora-500' },
-  { email: 'contributor@ncpor.gov.in', name: 'Dr. Rahul Mohan', role: 'CONTRIBUTOR', label: 'Contributor', desc: 'Create and edit drafts (cannot approve or publish)', color: 'bg-glacier-500' },
-  { email: 'reviewer@ncpor.gov.in', name: 'Sanjay Kumar', role: 'REVIEWER', label: 'Reviewer', desc: 'Read-only admin access, can leave review comments', color: 'bg-slate-500' },
+  { email: 'admin@ncpor.gov.in', name: 'Dr. Ravichandran M.', role: 'ADMIN', label: 'Admin', desc: 'Full access — upload, edit, approve editor changes, make content public/private, manage users', color: 'bg-navy-900' },
+  { email: 'editor@ncpor.gov.in', name: 'Dr. Thamban Meloth', role: 'EDITOR', label: 'Editor', desc: 'Upload and edit documents, photos, videos — changes require admin approval', color: 'bg-glacier-700' },
+  { email: 'media@ncpor.gov.in', name: 'Sanjay Kumar', role: 'MEDIA', label: 'Media / Public', desc: 'Read-only access to public content, search documents', color: 'bg-slate-500' },
 ];
 
 export default function Login() {
@@ -21,8 +19,13 @@ export default function Login() {
     setError('');
     setLoading(true);
     try {
-      await authApi.login({ email: loginEmail, password: loginPassword });
-      navigate('/admin');
+      const data = await authApi.login({ email: loginEmail, password: loginPassword });
+      const role = data.user?.role;
+      if (role === 'MEDIA') {
+        navigate('/portal');
+      } else {
+        navigate('/admin');
+      }
     } catch (err) {
       setError(err.message || 'Login failed.');
     } finally {
@@ -44,7 +47,7 @@ export default function Login() {
   return (
     <div className="max-w-[1200px] mx-auto px-3 py-6">
       <h1 className="text-h1 mb-2">Staff Login</h1>
-      <p className="text-[16px] font-sans text-slate-500 mb-5">Sign in to the NCPOR administration portal.</p>
+      <p className="text-[16px] font-sans text-slate-500 mb-5">Sign in to the NCPOR portal. Your dashboard depends on your role.</p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Manual login form */}

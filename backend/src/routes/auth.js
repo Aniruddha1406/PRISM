@@ -55,14 +55,14 @@ router.post('/register', async (req, res, next) => {
     
     db.run(
       'INSERT INTO users (id, email, password, name, role) VALUES (?, ?, ?, ?, ?)',
-      [id, data.email, hashedPassword, data.name, 'CONTRIBUTOR']
+      [id, data.email, hashedPassword, data.name, 'MEDIA']
     );
     saveDb();
 
-    setTokenCookies(res, id, 'CONTRIBUTOR');
+    setTokenCookies(res, id, 'MEDIA');
 
     res.status(201).json({
-      user: { id, email: data.email, name: data.name, role: 'CONTRIBUTOR' }
+      user: { id, email: data.email, name: data.name, role: 'MEDIA' }
     });
   } catch (err) {
     next(err);

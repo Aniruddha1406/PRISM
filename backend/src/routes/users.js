@@ -7,7 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
 
 // GET /api/v1/users — list all users (admin only)
-router.get('/', authenticate, authorize('SUPER_ADMIN'), async (req, res, next) => {
+router.get('/', authenticate, authorize('ADMIN'), async (req, res, next) => {
   try {
     const db = await getDb();
     const results = db.exec('SELECT id, email, name, role, created_at FROM users ORDER BY created_at DESC');
@@ -21,10 +21,10 @@ router.get('/', authenticate, authorize('SUPER_ADMIN'), async (req, res, next) =
 });
 
 // PUT /api/v1/users/:id/role — change user role (admin only)
-router.put('/:id/role', authenticate, authorize('SUPER_ADMIN'), async (req, res, next) => {
+router.put('/:id/role', authenticate, authorize('ADMIN'), async (req, res, next) => {
   try {
     const { role } = req.body;
-    const validRoles = ['SUPER_ADMIN', 'EDITOR', 'OUTREACH_MANAGER', 'CONTRIBUTOR', 'REVIEWER'];
+    const validRoles = ['ADMIN', 'EDITOR', 'MEDIA'];
     if (!validRoles.includes(role)) {
       return res.status(400).json({ error: { code: 'INVALID_ROLE', message: 'Invalid role specified.' } });
     }

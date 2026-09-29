@@ -19,6 +19,7 @@ const searchRoutes = require('./routes/search');
 const educationRoutes = require('./routes/education');
 const studioRoutes = require('./routes/studio');
 const statsRoutes = require('./routes/stats');
+const approvalRoutes = require('./routes/approvals');
 
 const app = express();
 
@@ -66,6 +67,7 @@ app.use('/api/v1/search', searchRoutes);
 app.use('/api/v1/education', educationRoutes);
 app.use('/api/v1/studio', studioRoutes);
 app.use('/api/v1/stats', statsRoutes);
+app.use('/api/v1/approvals', approvalRoutes);
 
 // Error handler
 app.use(errorHandler);
