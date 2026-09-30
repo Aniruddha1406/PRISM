@@ -5,15 +5,15 @@ import api from '../../api/client';
 // Map keywords in title/location to static webp assets for preview fallback
 function getStaticPreview(item) {
   const text = ((item.title || '') + ' ' + (item.location || '') + ' ' + (item.description || '')).toLowerCase();
-  if (text.includes('bharati') || text.includes('isea') || text.includes('ice core') || text.includes('iceberg') || text.includes('east antarctic')) return '/src/assets/expedition_40-640.webp';
-  if (text.includes('maitri') || text.includes('atmospheric') || text.includes('schirmacher')) return '/src/assets/multinational_team-640.webp';
-  if (text.includes('himadri') || text.includes('arctic') || text.includes('svalbard') || text.includes('kongsfjorden') || text.includes('indarc')) return '/src/assets/ncpor_campus-640.webp';
-  if (text.includes('himansh') || text.includes('spiti') || text.includes('himalaya') || text.includes('glacier monitoring')) return '/src/assets/ncpor_staff-640.webp';
-  if (text.includes('penguin') || text.includes('seal') || text.includes('wildlife')) return '/src/assets/polar_team-640.webp';
-  if (text.includes('southern ocean') || text.includes('ctd') || text.includes('vessel') || text.includes('sampling')) return '/src/assets/sa_agulhas-640.webp';
-  if (text.includes('south pole') || text.includes('ice sheet') || text.includes('drilling')) return '/src/assets/south_pole_2010-640.webp';
-  if (text.includes('orv') || text.includes('sagar kanya') || text.includes('research vessel')) return '/src/assets/orv_sagar_kanya-640.webp';
-  return '/src/assets/expedition_40-640.webp'; // generic fallback
+  if (text.includes('bharati') || text.includes('isea') || text.includes('ice core') || text.includes('iceberg') || text.includes('east antarctic')) return '/assets/expedition_40-640.webp';
+  if (text.includes('maitri') || text.includes('atmospheric') || text.includes('schirmacher')) return '/assets/multinational_team-640.webp';
+  if (text.includes('himadri') || text.includes('arctic') || text.includes('svalbard') || text.includes('kongsfjorden') || text.includes('indarc')) return '/assets/ncpor_campus-640.webp';
+  if (text.includes('himansh') || text.includes('spiti') || text.includes('himalaya') || text.includes('glacier monitoring')) return '/assets/ncpor_staff-640.webp';
+  if (text.includes('penguin') || text.includes('seal') || text.includes('wildlife')) return '/assets/polar_team-640.webp';
+  if (text.includes('southern ocean') || text.includes('ctd') || text.includes('vessel') || text.includes('sampling')) return '/assets/sa_agulhas-640.webp';
+  if (text.includes('south pole') || text.includes('ice sheet') || text.includes('drilling')) return '/assets/south_pole_2010-640.webp';
+  if (text.includes('orv') || text.includes('sagar kanya') || text.includes('research vessel')) return '/assets/orv_sagar_kanya-640.webp';
+  return '/assets/expedition_40-640.webp'; // generic fallback
 }
 
 export default function MediaManager() {

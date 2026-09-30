@@ -8,12 +8,12 @@ export default function SiteBackground() {
   return (
     <div className="site-bg">
       <picture>
-        <source media="(prefers-reduced-data: reduce)" srcSet="/src/assets/background-640.webp" />
-        <source media="(max-width: 640px)" srcSet="/src/assets/background-640.webp" />
-        <source media="(max-width: 1280px)" srcSet="/src/assets/background-1280.webp" />
-        <source media="(max-width: 1920px)" srcSet="/src/assets/background-1920.webp" />
+        <source media="(prefers-reduced-data: reduce)" srcSet="/assets/background-640.webp" />
+        <source media="(max-width: 640px)" srcSet="/assets/background-640.webp" />
+        <source media="(max-width: 1280px)" srcSet="/assets/background-1280.webp" />
+        <source media="(max-width: 1920px)" srcSet="/assets/background-1920.webp" />
         <img 
-          src="/src/assets/background-2560.webp" 
+          src="/assets/background-2560.webp" 
           alt="" 
           className="site-bg-img"
           decoding="async"

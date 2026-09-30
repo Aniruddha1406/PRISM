@@ -91,7 +91,7 @@ export default function Home() {
                 year="2023-24"
                 summary="Multi-disciplinary research at Bharati and Maitri stations covering atmospheric sciences, glaciology, and marine biology."
                 slug="isea-43"
-                image="/src/assets/south_pole_2010-640.webp"
+                image="/assets/south_pole_2010-640.webp"
               />
               <ExpeditionCard
                 title="Arctic Summer Campaign 2024"
@@ -99,7 +99,7 @@ export default function Home() {
                 year="2024"
                 summary="Research at Himadri station including glacier mass balance studies and Kongsfjorden ecosystem observations."
                 slug="arctic-summer-2024"
-                image="/src/assets/orv_sagar_kanya-640.webp"
+                image="/assets/orv_sagar_kanya-640.webp"
               />
               <ExpeditionCard
                 title="Himalayan Cryosphere Monitoring"
@@ -107,7 +107,7 @@ export default function Home() {
                 year="2024"
                 summary="Continuous glacier and permafrost monitoring at Himansh station in Spiti Valley."
                 slug="himalaya-cryo-2024"
-                image="/src/assets/ice_drilling-640.webp"
+                image="/assets/ice_drilling-640.webp"
               />
             </div>
           </section>
@@ -116,10 +116,10 @@ export default function Home() {
           <section className="mb-6">
             <h2 className="text-h2 mb-3">Research Stations</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-              <StationCard name="Himadri" location="Ny-Alesund, Svalbard" region="Arctic" year={2008} image="/src/assets/ncpor_campus-640.webp" />
-              <StationCard name="Bharati" location="Larsemann Hills" region="Antarctic" year={2012} image="/src/assets/expedition_40-640.webp" />
-              <StationCard name="Maitri" location="Schirmacher Oasis" region="Antarctic" year={1989} image="/src/assets/multinational_team-640.webp" />
-              <StationCard name="Himansh" location="Spiti Valley" region="Himalaya" year={2016} image="/src/assets/ncpor_staff-640.webp" />
+              <StationCard name="Himadri" location="Ny-Alesund, Svalbard" region="Arctic" year={2008} image="/assets/ncpor_campus-640.webp" />
+              <StationCard name="Bharati" location="Larsemann Hills" region="Antarctic" year={2012} image="/assets/expedition_40-640.webp" />
+              <StationCard name="Maitri" location="Schirmacher Oasis" region="Antarctic" year={1989} image="/assets/multinational_team-640.webp" />
+              <StationCard name="Himansh" location="Spiti Valley" region="Himalaya" year={2016} image="/assets/ncpor_staff-640.webp" />
             </div>
           </section>
 
@@ -159,15 +159,15 @@ export default function Home() {
               <div className="grid grid-cols-3 grid-rows-2 gap-2 h-[280px]">
                 {/* Large left image spanning both rows */}
                 <div className="row-span-2 col-span-2 overflow-hidden rounded-[4px] border border-line">
-                  <img src="/src/assets/sa_agulhas-640.webp" alt="Researchers in front of the S.A. Agulhas" className="w-full h-full object-cover" />
+                  <img src="/assets/sa_agulhas-640.webp" alt="Researchers in front of the S.A. Agulhas" className="w-full h-full object-cover" />
                 </div>
                 {/* Top right */}
                 <div className="overflow-hidden rounded-[4px] border border-line">
-                  <img src="/src/assets/polar_team-640.webp" alt="Polar research team" className="w-full h-full object-cover" />
+                  <img src="/assets/polar_team-640.webp" alt="Polar research team" className="w-full h-full object-cover" />
                 </div>
                 {/* Bottom right */}
                 <div className="overflow-hidden rounded-[4px] border border-line">
-                  <img src="/src/assets/ncpor_campus-640.webp" alt="PRISM Campus entrance" className="w-full h-full object-cover" />
+                  <img src="/assets/ncpor_campus-640.webp" alt="PRISM Campus entrance" className="w-full h-full object-cover" />
                 </div>
               </div>
             </section>

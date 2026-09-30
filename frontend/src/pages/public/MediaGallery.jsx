@@ -10,7 +10,7 @@ const DEMO_VIDEOS = [
     title: 'At the Bottom of the World — Polar Science',
     credit: 'National Science Foundation',
     location: 'Amundsen-Scott South Pole Station, Antarctica',
-    thumbnail: '/src/assets/expedition_40-640.webp',
+    thumbnail: '/assets/expedition_40-640.webp',
     embedUrl: 'https://www.youtube.com/embed/GBqt98Rw0BQ',
     tags: [{ id: 'antarctic', name: 'Antarctic' }, { id: 'field-work', name: 'Field Work' }],
   },
@@ -20,7 +20,7 @@ const DEMO_VIDEOS = [
     title: 'Antarctic Ice Mass Loss 2002–2023',
     credit: 'NASA / GRACE & GRACE-FO',
     location: 'Antarctic Ice Sheet',
-    thumbnail: '/src/assets/ncpor_campus-640.webp',
+    thumbnail: '/assets/ncpor_campus-640.webp',
     embedUrl: 'https://www.youtube.com/embed/QH8LQCzV1L9',
     tags: [{ id: 'antarctic', name: 'Antarctic' }, { id: 'glaciology', name: 'Glaciology' }],
   },
@@ -49,8 +49,8 @@ export default function MediaGallery() {
           media_type: 'PHOTO',
           title: p.description,
           credit: p.credit,
-          image: `/src/assets/${p.id}-640.webp`,
-          full_image: `/src/assets/${p.id}-1920.webp`,
+          image: `/assets/${p.id}-640.webp`,
+          full_image: `/assets/${p.id}-1920.webp`,
           tags: [{ id: p.album, name: p.album }]
         }));
         const existingIds = new Set(apiItems.map(i => i.id));
