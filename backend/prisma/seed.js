@@ -497,6 +497,7 @@ async function seed() {
   console.log('  Notifications: 4 (for admin about editor submissions)');
   console.log('');
   console.log('  Login: any email above with password "password123"');
+  process.exit(0);
 }
 
 seed().catch(err => { console.error('Seed failed:', err); process.exit(1); });

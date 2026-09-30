@@ -57,7 +57,7 @@ export default function MediaManager() {
   };
 
   const handleStatusChange = async (id, newStatus) => {
-    try { await api.put(`/media/${id}`, { status: newStatus }); setMessage({ type: 'success', text: `Status → ${newStatus}` }); await loadItems(); }
+    try { await api.put(`/media/${id}`, { status: newStatus }); setMessage({ type: 'success', text: `Status updated to ${newStatus}` }); await loadItems(); }
     catch (err) { setMessage({ type: 'error', text: err.message }); }
   };
 
@@ -78,10 +78,10 @@ export default function MediaManager() {
 
       {showForm && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-start justify-center pt-10 overflow-y-auto">
-          <div className="bg-white rounded-card border border-line p-5 w-full max-w-[600px] shadow-lg mb-10">
+          <div className="bg-white rounded-card border border-line p-5 w-full max-w-[600px] mb-10">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-h2">{editItem ? 'Edit Media' : 'New Media Item'}</h2>
-              <button onClick={() => setShowForm(false)} className="text-slate-500 hover:text-slate-800 text-[20px]">✕</button>
+              <button onClick={() => setShowForm(false)} className="text-[13px] font-sans text-slate-500 hover:text-slate-800">Close</button>
             </div>
             <form onSubmit={handleSubmit} className="space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -121,13 +121,13 @@ export default function MediaManager() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {items.map(item => (
-            <div key={item.id} className="bg-white rounded-card border border-line p-3 hover:shadow-hover transition-shadow duration-150">
+            <div key={item.id} className="bg-white rounded-card border border-line p-3 hover: transition-shadow duration-150">
               <div className="flex items-center justify-between mb-2">
-                <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-full ${item.media_type === 'PHOTO' ? 'bg-aurora-500' : 'bg-glacier-700'}`}>{item.media_type}</span>
-                <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-full ${statusColors[item.status] || 'bg-slate-500'}`}>{item.status === 'ARCHIVED' ? 'PRIVATE' : item.status}</span>
+                <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-[2px] ${item.media_type === 'PHOTO' ? 'bg-aurora-500' : 'bg-glacier-700'}`}>{item.media_type}</span>
+                <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-[2px] ${statusColors[item.status] || 'bg-slate-500'}`}>{item.status === 'ARCHIVED' ? 'PRIVATE' : item.status}</span>
               </div>
               <h3 className="text-[14px] font-serif font-bold text-navy-900 mb-1 truncate">{item.title}</h3>
-              <p className="text-[12px] font-sans text-slate-500 mb-1 truncate">{item.credit ? `📷 ${item.credit}` : ''} {item.location ? `📍 ${item.location}` : ''}</p>
+              <p className="text-[12px] font-sans text-slate-500 mb-1 truncate">{item.credit ? `Credit: ${item.credit}` : ''} {item.location ? `Location: ${item.location}` : ''}</p>
               {item.album_name && <p className="text-[11px] font-sans text-aurora-500 mb-2">Album: {item.album_name}</p>}
               <div className="flex items-center gap-1 pt-1 border-t border-line">
                 <button onClick={() => handleEdit(item)} className="text-[12px] font-sans text-glacier-500 hover:underline">Edit</button>

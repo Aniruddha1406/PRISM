@@ -57,7 +57,7 @@ export default function Search() {
                           </Link>
                           {item.summary && <p className="text-[13px] font-sans text-slate-500 mt-0.5">{item.summary.slice(0, 150)}{item.summary.length > 150 ? '...' : ''}</p>}
                         </div>
-                        <span className={`text-[10px] font-sans border px-2 py-0.5 rounded-full ml-2 whitespace-nowrap ${cfg.color}`}>{cfg.label}</span>
+                        <span className={`text-[10px] font-sans border px-2 py-0.5 rounded-[2px] ml-2 whitespace-nowrap ${cfg.color}`}>{cfg.label}</span>
                       </div>
                     </div>
                   ))}

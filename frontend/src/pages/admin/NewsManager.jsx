@@ -51,7 +51,7 @@ export default function NewsManager() {
   };
 
   const handleStatusChange = async (id, newStatus) => {
-    try { await api.put(`/news/${id}`, { status: newStatus }); setMessage({ type: 'success', text: `Status → ${newStatus}` }); await loadItems(); }
+    try { await api.put(`/news/${id}`, { status: newStatus }); setMessage({ type: 'success', text: `Status updated to ${newStatus}` }); await loadItems(); }
     catch (err) { setMessage({ type: 'error', text: err.message }); }
   };
 
@@ -73,10 +73,10 @@ export default function NewsManager() {
 
       {showForm && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-start justify-center pt-10 overflow-y-auto">
-          <div className="bg-white rounded-card border border-line p-5 w-full max-w-[700px] shadow-lg mb-10">
+          <div className="bg-white rounded-card border border-line p-5 w-full max-w-[700px] mb-10">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-h2">{editItem ? 'Edit Article' : 'New Article'}</h2>
-              <button onClick={() => setShowForm(false)} className="text-slate-500 hover:text-slate-800 text-[20px]">✕</button>
+              <button onClick={() => setShowForm(false)} className="text-[13px] font-sans text-slate-500 hover:text-slate-800">Close</button>
             </div>
             <form onSubmit={handleSubmit} className="space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -104,11 +104,11 @@ export default function NewsManager() {
       ) : (
         <div className="space-y-3">
           {items.map(item => (
-            <div key={item.id} className="bg-white rounded-card border border-line p-4 hover:shadow-hover transition-shadow duration-150">
+            <div key={item.id} className="bg-white rounded-card border border-line p-4 hover: transition-shadow duration-150">
               <div className="flex items-start justify-between">
                 <div className="flex-grow min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-full ${statusColors[item.status] || 'bg-slate-500'}`}>{item.status === 'ARCHIVED' ? 'PRIVATE' : item.status}</span>
+                    <span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-[2px] ${statusColors[item.status] || 'bg-slate-500'}`}>{item.status === 'ARCHIVED' ? 'PRIVATE' : item.status}</span>
                     {item.publish_date && <span className="text-[11px] font-sans text-slate-500">{item.publish_date}</span>}
                   </div>
                   <h3 className="text-[16px] font-serif font-bold text-navy-900 mb-1">{item.title}</h3>

@@ -28,7 +28,7 @@ export default function Publications() {
   return (
     <div className="max-w-[1200px] mx-auto px-3 py-5">
       <h1 className="text-h1 mb-2">Publications</h1>
-      <p className="text-[16px] font-sans text-slate-500 mb-4">Research papers, reports, and publications from NCPOR scientists.</p>
+      <p className="text-[16px] font-sans text-slate-500 mb-4">Research papers, reports, and publications from PRISM scientists.</p>
 
       <div className="flex items-center gap-3 mb-4 flex-wrap">
         <input type="search" placeholder="Search publications..." value={searchQ} onChange={e => setSearchQ(e.target.value)}
@@ -53,7 +53,7 @@ export default function Publications() {
                   {pub.abstract && <p className="text-[13px] font-sans text-slate-800 mt-1 leading-relaxed">{pub.abstract.slice(0, 200)}{pub.abstract.length > 200 ? '...' : ''}</p>}
                 </div>
                 <div className="flex items-center gap-2 ml-3 flex-shrink-0">
-                  <span className="text-[11px] font-sans border border-glacier-700 text-glacier-700 px-2 py-0.5 rounded-full">{typeLabels[pub.pub_type] || pub.pub_type}</span>
+                  <span className="text-[11px] font-sans border border-glacier-700 text-glacier-700 px-2 py-0.5 rounded-[2px]">{typeLabels[pub.pub_type] || pub.pub_type}</span>
                   <a href={`${import.meta.env.VITE_API_URL || '/api/v1'}/publications/${pub.id}/bibtex`} className="text-[12px] font-sans text-glacier-500 hover:underline">BibTeX</a>
                   <a href={`${import.meta.env.VITE_API_URL || '/api/v1'}/publications/${pub.id}/ris`} className="text-[12px] font-sans text-glacier-500 hover:underline">RIS</a>
                 </div>

@@ -57,7 +57,7 @@ export default function PublicationManager() {
   };
 
   const handleStatusChange = async (id, newStatus) => {
-    try { await api.put(`/publications/${id}`, { status: newStatus }); setMessage({ type: 'success', text: `Status → ${newStatus}` }); await loadItems(); }
+    try { await api.put(`/publications/${id}`, { status: newStatus }); setMessage({ type: 'success', text: `Status updated to ${newStatus}` }); await loadItems(); }
     catch (err) { setMessage({ type: 'error', text: err.message }); }
   };
 
@@ -79,10 +79,10 @@ export default function PublicationManager() {
 
       {showForm && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-start justify-center pt-10 overflow-y-auto">
-          <div className="bg-white rounded-card border border-line p-5 w-full max-w-[700px] shadow-lg mb-10">
+          <div className="bg-white rounded-card border border-line p-5 w-full max-w-[700px] mb-10">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-h2">{editItem ? 'Edit Publication' : 'New Publication'}</h2>
-              <button onClick={() => setShowForm(false)} className="text-slate-500 hover:text-slate-800 text-[20px]">✕</button>
+              <button onClick={() => setShowForm(false)} className="text-[13px] font-sans text-slate-500 hover:text-slate-800">Close</button>
             </div>
             <form onSubmit={handleSubmit} className="space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -143,7 +143,7 @@ export default function PublicationManager() {
                 <td className="text-[12px] font-sans text-slate-500 py-2 px-3">{item.pub_type?.replace(/_/g, ' ')}</td>
                 <td className="text-[12px] font-sans text-slate-500 py-2 px-3 max-w-[150px] truncate">{item.authors}</td>
                 <td className="text-[13px] font-sans text-slate-500 py-2 px-3">{item.year}</td>
-                <td className="py-2 px-3"><span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-full ${statusColors[item.status] || 'bg-slate-500'}`}>{item.status === 'ARCHIVED' ? 'PRIVATE' : item.status}</span></td>
+                <td className="py-2 px-3"><span className={`text-[10px] font-sans text-white px-2 py-0.5 rounded-[2px] ${statusColors[item.status] || 'bg-slate-500'}`}>{item.status === 'ARCHIVED' ? 'PRIVATE' : item.status}</span></td>
                 <td className="py-2 px-3"><div className="flex items-center gap-1">
                   <button onClick={() => handleEdit(item)} className="text-[12px] font-sans text-glacier-500 hover:underline">Edit</button>
                   {user.role === 'ADMIN' && item.status === 'DRAFT' && <button onClick={() => handleStatusChange(item.id, 'PUBLISHED')} className="text-[12px] font-sans text-aurora-500 hover:underline ml-2">Publish</button>}

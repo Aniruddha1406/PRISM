@@ -33,7 +33,7 @@ export default function News() {
           {loading ? <p className="text-slate-500 font-sans">Loading...</p> : (
             <div className="space-y-3">
               {articles.map(article => (
-                <article key={article.id} className="bg-white rounded-card border border-line p-4 hover:shadow-hover transition-shadow duration-150">
+                <article key={article.id} className="bg-white rounded-card border border-line p-4 hover: transition-shadow duration-150">
                   <p className="text-[12px] font-sans text-slate-500 mb-1">{article.publish_date}</p>
                   <Link to={`/news/${article.slug}`} className="text-[18px] font-serif font-bold text-navy-900 hover:text-glacier-500 transition-colors duration-150">
                     {article.title}
@@ -56,7 +56,7 @@ export default function News() {
             </a>
           </div>
           {events.map(event => (
-            <div key={event.id} className="bg-white rounded-card border border-line p-3 mb-2 hover:shadow-hover transition-shadow duration-150">
+            <div key={event.id} className="bg-white rounded-card border border-line p-3 mb-2 hover: transition-shadow duration-150">
               <p className="text-[12px] font-sans text-aurora-500 font-bold">{event.start_date}{event.end_date && event.end_date !== event.start_date ? ` — ${event.end_date}` : ''}</p>
               <h3 className="text-[15px] font-serif font-bold text-navy-900 mt-1">{event.title}</h3>
               {event.location && <p className="text-[12px] font-sans text-slate-500 mt-0.5">{event.location}</p>}

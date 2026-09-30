@@ -10,8 +10,8 @@ const footerLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-navy-900 text-white mt-6">
-      <div className="max-w-[1200px] mx-auto px-3 py-5">
+    <footer className="glass-navy mx-3 mb-3 mt-6">
+      <div className="max-w-[1200px] mx-auto px-4 py-5">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* About column */}
           <div>
@@ -54,7 +54,7 @@ export default function Footer() {
 
         <div className="border-t border-white/20 mt-4 pt-3 flex flex-col md:flex-row justify-between items-center">
           <p className="text-[12px] text-white/50 font-sans">
-            &copy; {new Date().getFullYear()} NCPOR, Ministry of Earth Sciences, Government of India. All rights reserved.
+            &copy; {new Date().getFullYear()} PRISM, Ministry of Earth Sciences, Government of India. All rights reserved.
           </p>
           <p className="text-[12px] text-white/50 font-sans mt-1 md:mt-0">
             Content on this site is licensed under applicable terms. Sample data for demonstration.

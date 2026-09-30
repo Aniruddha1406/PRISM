@@ -80,11 +80,13 @@ export default function UnifiedEntry() {
     setSaving(false);
   };
 
+  const numSections = [useExpedition, useDataset, usePublication, useMedia].filter(Boolean).length;
+
   return (
-    <div className="max-w-[800px] mx-auto">
-      <h1 className="text-h1 mb-2">New Unified Entry</h1>
+    <div className="max-w-[800px] mx-auto pb-24">
+      <h1 className="text-h1 mb-2 text-navy-900">New Unified Entry</h1>
       <p className="text-[14px] font-sans text-slate-500 mb-5">
-        Create a comprehensive entry spanning multiple content types. Enable the sections you want to include. At least one section is required. All provided sections will be submitted together.
+        Create a comprehensive entry spanning multiple content types.
       </p>
 
       {message && (
@@ -96,16 +98,18 @@ export default function UnifiedEntry() {
       <form onSubmit={handleSubmit} className="space-y-6">
         
         {/* Expedition Section */}
-        <div className="bg-white rounded-card border border-line p-4">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-h2 text-navy-900">🧭 Expedition</h2>
-            <label className="flex items-center gap-2 text-[13px] font-sans text-slate-800 cursor-pointer">
-              <input type="checkbox" checked={useExpedition} onChange={e => setUseExpedition(e.target.checked)} className="rounded" />
-              Include Expedition
-            </label>
+        <div className={`bg-white border border-line transition-all duration-150 ${useExpedition ? 'border-l-[3px] border-l-glacier-500' : 'hover:bg-frost-50/50'}`}>
+          <div className="flex items-center justify-between p-4">
+            <div>
+              <h2 className="text-[15px] font-serif font-bold text-navy-900">Expedition</h2>
+              {!useExpedition && <p className="text-[12px] font-sans text-slate-500 mt-0.5">Details about a field campaign or research voyage.</p>}
+            </div>
+            <button type="button" onClick={() => setUseExpedition(!useExpedition)} className={`text-[13px] font-sans font-bold px-3 py-1.5 transition-colors duration-150 ${useExpedition ? 'text-ember-500 hover:text-ember-600' : 'text-glacier-500 hover:text-glacier-600'}`}>
+              {useExpedition ? 'Remove section' : 'Add section'}
+            </button>
           </div>
           {useExpedition && (
-            <div className="space-y-3 pt-3 border-t border-line animate-fade-in">
+            <div className="px-4 pb-4 space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-[13px] font-sans text-slate-800 mb-1">Title *</label>
@@ -137,16 +141,18 @@ export default function UnifiedEntry() {
         </div>
 
         {/* Dataset Section */}
-        <div className="bg-white rounded-card border border-line p-4">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-h2 text-navy-900">📁 Dataset</h2>
-            <label className="flex items-center gap-2 text-[13px] font-sans text-slate-800 cursor-pointer">
-              <input type="checkbox" checked={useDataset} onChange={e => setUseDataset(e.target.checked)} className="rounded" />
-              Include Dataset
-            </label>
+        <div className={`bg-white border border-line transition-all duration-150 ${useDataset ? 'border-l-[3px] border-l-glacier-500' : 'hover:bg-frost-50/50'}`}>
+          <div className="flex items-center justify-between p-4">
+            <div>
+              <h2 className="text-[15px] font-serif font-bold text-navy-900">Dataset</h2>
+              {!useDataset && <p className="text-[12px] font-sans text-slate-500 mt-0.5">Scientific data files and metadata records.</p>}
+            </div>
+            <button type="button" onClick={() => setUseDataset(!useDataset)} className={`text-[13px] font-sans font-bold px-3 py-1.5 transition-colors duration-150 ${useDataset ? 'text-ember-500 hover:text-ember-600' : 'text-glacier-500 hover:text-glacier-600'}`}>
+              {useDataset ? 'Remove section' : 'Add section'}
+            </button>
           </div>
           {useDataset && (
-            <div className="space-y-3 pt-3 border-t border-line animate-fade-in">
+            <div className="px-4 pb-4 space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-[13px] font-sans text-slate-800 mb-1">Title *</label>
@@ -182,16 +188,18 @@ export default function UnifiedEntry() {
         </div>
 
         {/* Publication Section */}
-        <div className="bg-white rounded-card border border-line p-4">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-h2 text-navy-900">📄 Publication</h2>
-            <label className="flex items-center gap-2 text-[13px] font-sans text-slate-800 cursor-pointer">
-              <input type="checkbox" checked={usePublication} onChange={e => setUsePublication(e.target.checked)} className="rounded" />
-              Include Publication
-            </label>
+        <div className={`bg-white border border-line transition-all duration-150 ${usePublication ? 'border-l-[3px] border-l-glacier-500' : 'hover:bg-frost-50/50'}`}>
+          <div className="flex items-center justify-between p-4">
+            <div>
+              <h2 className="text-[15px] font-serif font-bold text-navy-900">Publication</h2>
+              {!usePublication && <p className="text-[12px] font-sans text-slate-500 mt-0.5">Research papers, technical reports, and documents.</p>}
+            </div>
+            <button type="button" onClick={() => setUsePublication(!usePublication)} className={`text-[13px] font-sans font-bold px-3 py-1.5 transition-colors duration-150 ${usePublication ? 'text-ember-500 hover:text-ember-600' : 'text-glacier-500 hover:text-glacier-600'}`}>
+              {usePublication ? 'Remove section' : 'Add section'}
+            </button>
           </div>
           {usePublication && (
-            <div className="space-y-3 pt-3 border-t border-line animate-fade-in">
+            <div className="px-4 pb-4 space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-[13px] font-sans text-slate-800 mb-1">Title *</label>
@@ -229,16 +237,18 @@ export default function UnifiedEntry() {
         </div>
 
         {/* Media Section */}
-        <div className="bg-white rounded-card border border-line p-4">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-h2 text-navy-900">🖼️ Media</h2>
-            <label className="flex items-center gap-2 text-[13px] font-sans text-slate-800 cursor-pointer">
-              <input type="checkbox" checked={useMedia} onChange={e => setUseMedia(e.target.checked)} className="rounded" />
-              Include Media
-            </label>
+        <div className={`bg-white border border-line transition-all duration-150 ${useMedia ? 'border-l-[3px] border-l-glacier-500' : 'hover:bg-frost-50/50'}`}>
+          <div className="flex items-center justify-between p-4">
+            <div>
+              <h2 className="text-[15px] font-serif font-bold text-navy-900">Media</h2>
+              {!useMedia && <p className="text-[12px] font-sans text-slate-500 mt-0.5">Photographs or video content for the gallery.</p>}
+            </div>
+            <button type="button" onClick={() => setUseMedia(!useMedia)} className={`text-[13px] font-sans font-bold px-3 py-1.5 transition-colors duration-150 ${useMedia ? 'text-ember-500 hover:text-ember-600' : 'text-glacier-500 hover:text-glacier-600'}`}>
+              {useMedia ? 'Remove section' : 'Add section'}
+            </button>
           </div>
           {useMedia && (
-            <div className="space-y-3 pt-3 border-t border-line animate-fade-in">
+            <div className="px-4 pb-4 space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-[13px] font-sans text-slate-800 mb-1">Title *</label>
@@ -267,11 +277,19 @@ export default function UnifiedEntry() {
           )}
         </div>
 
-        {/* Submit Button */}
-        <div className="flex justify-end pt-2">
-          <button type="submit" disabled={saving} className="bg-glacier-500 text-white font-sans text-[15px] font-bold px-6 py-3 rounded-card hover:bg-glacier-700 transition-colors duration-150 shadow-hover disabled:opacity-50">
-            {saving ? 'Submitting...' : 'Submit Unified Entry'}
-          </button>
+        {/* Fixed Footer Bar */}
+        <div className="fixed bottom-0 left-[230px] right-0 bg-white border-t border-line p-4 flex items-center justify-between z-10 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+          <div className="text-[13px] font-sans text-slate-500">
+            {numSections} section{numSections !== 1 && 's'} included
+          </div>
+          <div className="flex items-center gap-3">
+            <button type="button" className="text-[13px] font-sans font-bold text-slate-500 hover:text-navy-900 transition-colors">
+              Save draft
+            </button>
+            <button type="submit" disabled={saving || numSections === 0} className="bg-navy-900 text-white font-sans text-[13px] font-bold px-5 py-2 hover:bg-navy-800 transition-colors duration-150 disabled:opacity-50">
+              {saving ? 'Submitting...' : 'Submit'}
+            </button>
+          </div>
         </div>
 
       </form>

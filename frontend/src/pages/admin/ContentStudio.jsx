@@ -129,7 +129,7 @@ export default function ContentStudio() {
                   <td className="text-[13px] font-sans text-slate-800 py-1 px-2">{platformLabels[c.platform] || c.platform}</td>
                   <td className="text-[13px] font-sans text-slate-500 py-1 px-2">{c.language === 'hi' ? 'Hindi' : 'English'}</td>
                   <td className="py-1 px-2">
-                    <span className={`text-[11px] font-sans px-2 py-0.5 rounded-full ${c.status === 'APPROVED' ? 'bg-glacier-500/10 text-glacier-500' : c.status === 'REJECTED' ? 'bg-ember-500/10 text-ember-500' : 'bg-frost-50 text-slate-500 border border-line'}`}>{c.status}</span>
+                    <span className={`text-[11px] font-sans px-2 py-0.5 rounded-[2px] ${c.status === 'APPROVED' ? 'bg-glacier-500/10 text-glacier-500' : c.status === 'REJECTED' ? 'bg-ember-500/10 text-ember-500' : 'bg-frost-50 text-slate-500 border border-line'}`}>{c.status}</span>
                   </td>
                   <td className="text-[12px] font-sans text-slate-500 py-1 px-2 max-w-[200px] truncate">{c.content?.slice(0, 60)}...</td>
                   <td className="py-1 px-2">

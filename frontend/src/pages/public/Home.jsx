@@ -4,7 +4,6 @@ import api from '../../api/client';
 
 export default function Home() {
   const [stats, setStats] = useState({ expeditions: 0, datasets: 0, publications: 0, media: 0 });
-  const [latestNews, setLatestNews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -13,14 +12,7 @@ export default function Home() {
         const data = await api.get('/stats');
         setStats(data);
       } catch {
-        // Stats endpoint may not exist yet — use placeholders
         setStats({ expeditions: 43, datasets: 120, publications: 350, media: 2500 });
-      }
-      try {
-        const data = await api.get('/news?status=PUBLISHED&limit=3');
-        setLatestNews(data.articles || []);
-      } catch {
-        setLatestNews([]);
       }
       setLoading(false);
     }
@@ -30,20 +22,18 @@ export default function Home() {
   return (
     <div>
       {/* Hero section */}
-      <section className="relative h-[480px] bg-navy-900 overflow-hidden">
-        {/* Scrim overlay */}
-        <div className="absolute inset-0 scrim" />
-        
+      <section className="relative h-[480px] overflow-hidden">
         <div className="relative z-10 max-w-[1200px] mx-auto px-3 h-full flex flex-col justify-end pb-6">
-          <h1 className="text-white font-serif text-h1 font-bold max-w-[600px]">
-            India's Polar and Ocean Research
+          <h1 className="text-navy-900 font-serif text-[42px] font-bold max-w-[700px] leading-tight">
+            PRISM <br/>
+            <span className="text-[24px] font-normal text-navy-900/80">Polar Research Information Science Media</span>
           </h1>
-          <p className="text-white/90 font-sans text-[16px] mt-2 max-w-[540px]">
+          <p className="text-slate-800 font-sans text-[16px] mt-4 max-w-[540px]">
             Advancing scientific knowledge of the Arctic, Antarctic, Southern Ocean, and Himalayan cryosphere through sustained research programmes and expeditions.
           </p>
 
           {/* Glass search panel */}
-          <div className="glass-dark mt-4 px-3 py-2 max-w-[540px] flex items-center gap-2">
+          <div className="glass-navy mt-4 px-3 py-2 max-w-[540px] flex items-center gap-2">
             <label htmlFor="hero-search" className="sr-only">Search the portal</label>
             <input
               id="hero-search"
@@ -53,14 +43,14 @@ export default function Home() {
             />
             <Link
               to="/search"
-              className="text-white text-[14px] font-sans px-3 py-1 bg-glacier-500 rounded-card hover:bg-glacier-700 transition-colors duration-150"
+              className="text-white text-[14px] font-sans px-3 py-1 bg-glacier-500 rounded-[4px] hover:bg-glacier-700 transition-colors duration-150"
             >
               Search
             </Link>
           </div>
 
           {/* Glass counter strip */}
-          <div className="glass-dark mt-3 px-4 py-2 flex items-center gap-5 max-w-[540px]">
+          <div className="glass-navy mt-3 px-4 py-2 flex items-center gap-5 max-w-[540px]">
             <CounterItem label="Expeditions" value={stats.expeditions} />
             <div className="w-px h-5 bg-white/30" />
             <CounterItem label="Datasets" value={stats.datasets} />
@@ -72,76 +62,109 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Content sections on solid frost-50 */}
+      {/* Content sections on glass reading panel */}
       <div className="max-w-[1200px] mx-auto px-3 py-5">
-        {/* Latest expeditions */}
-        <section className="mb-6">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-h2">Latest Expeditions</h2>
-            <Link to="/expeditions" className="text-glacier-500 font-sans text-[14px] hover:underline transition-colors duration-150">
-              View all
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <ExpeditionCard
-              title="43rd ISEA"
-              region="Antarctic"
-              year="2023-24"
-              summary="Multi-disciplinary research at Bharati and Maitri stations covering atmospheric sciences, glaciology, and marine biology."
-              slug="isea-43"
-            />
-            <ExpeditionCard
-              title="Arctic Summer Campaign 2024"
-              region="Arctic"
-              year="2024"
-              summary="Research at Himadri station including glacier mass balance studies and Kongsfjorden ecosystem observations."
-              slug="arctic-summer-2024"
-            />
-            <ExpeditionCard
-              title="Himalayan Cryosphere Monitoring"
-              region="Himalaya"
-              year="2024"
-              summary="Continuous glacier and permafrost monitoring at Himansh station in Spiti Valley."
-              slug="himalaya-cryo-2024"
-            />
-          </div>
-        </section>
+        <div className="panel-reading">
 
-        {/* Featured highlights */}
-        <section className="mb-6">
-          <h2 className="text-h2 mb-3">Research Stations</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-            <StationCard name="Himadri" location="Ny-Alesund, Svalbard" region="Arctic" year={2008} />
-            <StationCard name="Bharati" location="Larsemann Hills" region="Antarctic" year={2012} />
-            <StationCard name="Maitri" location="Schirmacher Oasis" region="Antarctic" year={1989} />
-            <StationCard name="Himansh" location="Spiti Valley" region="Himalaya" year={2016} />
-          </div>
-        </section>
+          {/* Latest from the field */}
+          <section className="mb-6">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-h2">Latest from the Field</h2>
+              <Link to="/expeditions" className="text-glacier-500 font-sans text-[14px] hover:underline transition-colors duration-150">
+                View all
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <ExpeditionCard
+                title="43rd ISEA"
+                region="Antarctic"
+                year="2023-24"
+                summary="Multi-disciplinary research at Bharati and Maitri stations covering atmospheric sciences, glaciology, and marine biology."
+                slug="isea-43"
+                image="/src/assets/south_pole_2010-640.webp"
+              />
+              <ExpeditionCard
+                title="Arctic Summer Campaign 2024"
+                region="Arctic"
+                year="2024"
+                summary="Research at Himadri station including glacier mass balance studies and Kongsfjorden ecosystem observations."
+                slug="arctic-summer-2024"
+                image="/src/assets/orv_sagar_kanya-640.webp"
+              />
+              <ExpeditionCard
+                title="Himalayan Cryosphere Monitoring"
+                region="Himalaya"
+                year="2024"
+                summary="Continuous glacier and permafrost monitoring at Himansh station in Spiti Valley."
+                slug="himalaya-cryo-2024"
+                image="/src/assets/ice_drilling-640.webp"
+              />
+            </div>
+          </section>
 
-        {/* Latest publications */}
-        <section className="mb-6">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-h2">Latest Publications</h2>
-            <Link to="/publications" className="text-glacier-500 font-sans text-[14px] hover:underline transition-colors duration-150">
-              View all
-            </Link>
+          {/* Research Stations */}
+          <section className="mb-6">
+            <h2 className="text-h2 mb-3">Research Stations</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+              <StationCard name="Himadri" location="Ny-Alesund, Svalbard" region="Arctic" year={2008} image="/src/assets/ncpor_campus-640.webp" />
+              <StationCard name="Bharati" location="Larsemann Hills" region="Antarctic" year={2012} image="/src/assets/expedition_40-640.webp" />
+              <StationCard name="Maitri" location="Schirmacher Oasis" region="Antarctic" year={1989} image="/src/assets/multinational_team-640.webp" />
+              <StationCard name="Himansh" location="Spiti Valley" region="Himalaya" year={2016} image="/src/assets/ncpor_staff-640.webp" />
+            </div>
+          </section>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            {/* Latest publications */}
+            <section>
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-h2">Latest Publications</h2>
+                <Link to="/publications" className="text-glacier-500 font-sans text-[14px] hover:underline transition-colors duration-150">
+                  View all
+                </Link>
+              </div>
+              <div className="bg-white rounded-[4px] border border-line">
+                <PublicationRow
+                  title="Glacier Mass Balance Observations in Svalbard: A Decadal Assessment"
+                  authors="Thamban M., Kumar S., Sharma P."
+                  journal="Journal of Glaciology, 2024"
+                  type="Paper"
+                />
+                <PublicationRow
+                  title="PRISM Annual Report 2023-24"
+                  authors="PRISM"
+                  journal=""
+                  type="Annual Report"
+                  isLast
+                />
+              </div>
+            </section>
+
+            {/* Media Highlight — fixed height grid so images fit properly */}
+            <section>
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-h2">Media Highlight</h2>
+                <Link to="/media" className="text-glacier-500 font-sans text-[14px] hover:underline transition-colors duration-150">
+                  Gallery
+                </Link>
+              </div>
+              <div className="grid grid-cols-3 grid-rows-2 gap-2 h-[280px]">
+                {/* Large left image spanning both rows */}
+                <div className="row-span-2 col-span-2 overflow-hidden rounded-[4px] border border-line">
+                  <img src="/src/assets/sa_agulhas-640.webp" alt="Researchers in front of the S.A. Agulhas" className="w-full h-full object-cover" />
+                </div>
+                {/* Top right */}
+                <div className="overflow-hidden rounded-[4px] border border-line">
+                  <img src="/src/assets/polar_team-640.webp" alt="Polar research team" className="w-full h-full object-cover" />
+                </div>
+                {/* Bottom right */}
+                <div className="overflow-hidden rounded-[4px] border border-line">
+                  <img src="/src/assets/ncpor_campus-640.webp" alt="PRISM Campus entrance" className="w-full h-full object-cover" />
+                </div>
+              </div>
+            </section>
           </div>
-          <div className="bg-white rounded-card border border-line">
-            <PublicationRow
-              title="Glacier Mass Balance Observations in Svalbard: A Decadal Assessment"
-              authors="Thamban M., Kumar S., Sharma P."
-              journal="Journal of Glaciology, 2024"
-              type="Paper"
-            />
-            <PublicationRow
-              title="NCPOR Annual Report 2023-24"
-              authors="NCPOR"
-              journal=""
-              type="Annual Report"
-              isLast
-            />
-          </div>
-        </section>
+
+        </div>
       </div>
     </div>
   );
@@ -150,23 +173,28 @@ export default function Home() {
 function CounterItem({ label, value }) {
   return (
     <div className="text-center">
-      <div className="text-white font-serif text-[22px] font-bold">{value}</div>
+      <div className="text-white font-mono text-[22px] font-bold">{value}</div>
       <div className="text-white/70 font-sans text-[11px]">{label}</div>
     </div>
   );
 }
 
-function ExpeditionCard({ title, region, year, summary, slug }) {
+function ExpeditionCard({ title, region, year, summary, slug, image }) {
   const regionColors = {
     Antarctic: 'bg-glacier-700',
     Arctic: 'bg-aurora-500',
     Himalaya: 'bg-ember-500',
   };
   return (
-    <Link to={`/expeditions/${slug}`} className="block bg-white rounded-card border border-line hover:shadow-hover transition-shadow duration-150">
+    <Link to={`/expeditions/${slug}`} className="block bg-white rounded-[4px] border border-line hover: transition-shadow duration-150">
+      {image && (
+        <div className="aspect-[16/9] w-full overflow-hidden rounded-t-[3px]">
+          <img src={image} alt="" className="w-full h-full object-cover" />
+        </div>
+      )}
       <div className="p-3">
         <div className="flex items-center gap-2 mb-2">
-          <span className={`${regionColors[region] || 'bg-glacier-700'} text-white text-[11px] font-sans px-2 py-0.5 rounded-full`}>
+          <span className={`${regionColors[region] || 'bg-glacier-700'} text-white text-[11px] font-sans px-2 py-0.5 rounded-[2px]`}>
             {region}
           </span>
           <span className="text-slate-500 text-[12px] font-sans">{year}</span>
@@ -178,14 +206,21 @@ function ExpeditionCard({ title, region, year, summary, slug }) {
   );
 }
 
-function StationCard({ name, location, region, year }) {
+function StationCard({ name, location, region, year, image }) {
   return (
-    <div className="bg-white rounded-card border border-line p-3 hover:shadow-hover transition-shadow duration-150">
-      <h3 className="text-[16px] font-serif font-bold text-navy-900">{name}</h3>
-      <p className="text-slate-500 text-[13px] font-sans mt-1">{location}</p>
-      <div className="flex items-center gap-2 mt-2">
-        <span className="text-[11px] font-sans text-glacier-700 border border-glacier-700 px-2 py-0.5 rounded-full">{region}</span>
-        <span className="text-slate-500 text-[11px] font-sans">Est. {year}</span>
+    <div className="bg-white rounded-[4px] border border-line hover: transition-shadow duration-150">
+      {image && (
+        <div className="aspect-[4/3] w-full overflow-hidden rounded-t-[3px]">
+          <img src={image} alt="" className="w-full h-full object-cover" />
+        </div>
+      )}
+      <div className="p-3">
+        <h3 className="text-[16px] font-serif font-bold text-navy-900">{name}</h3>
+        <p className="text-slate-500 text-[13px] font-sans mt-1">{location}</p>
+        <div className="flex items-center gap-2 mt-2">
+          <span className="text-[11px] font-sans text-glacier-700 border border-glacier-700 px-2 py-0.5 rounded-[2px]">{region}</span>
+          <span className="text-slate-500 text-[11px] font-sans">Est. {year}</span>
+        </div>
       </div>
     </div>
   );
@@ -201,7 +236,7 @@ function PublicationRow({ title, authors, journal, type, isLast }) {
             {authors}{journal ? ` — ${journal}` : ''}
           </p>
         </div>
-        <span className="text-[11px] font-sans text-glacier-700 border border-glacier-700 px-2 py-0.5 rounded-full ml-2 whitespace-nowrap">
+        <span className="text-[11px] font-sans text-glacier-700 border border-glacier-700 px-2 py-0.5 rounded-[2px] ml-2 whitespace-nowrap">
           {type}
         </span>
       </div>
