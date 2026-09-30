@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import api from '../../api/client';
 
 export default function NewsManager() {
@@ -115,7 +116,8 @@ export default function NewsManager() {
                   {item.summary && <p className="text-[13px] font-sans text-slate-500 line-clamp-2">{item.summary}</p>}
                 </div>
                 <div className="flex items-center gap-1 flex-shrink-0 ml-3">
-                  <button onClick={() => handleEdit(item)} className="text-[12px] font-sans text-glacier-500 hover:underline">Edit</button>
+                   <Link to={`/news`} target="_blank" rel="noopener noreferrer" className="text-[12px] font-sans text-navy-900/60 hover:text-navy-900 border border-line px-2 py-0.5 rounded-[2px] transition-colors duration-150">View</Link>
+                  <button onClick={() => handleEdit(item)} className="text-[12px] font-sans text-glacier-500 hover:underline ml-1">Edit</button>
                   {user.role === 'ADMIN' && item.status === 'DRAFT' && <button onClick={() => handleStatusChange(item.id, 'PUBLISHED')} className="text-[12px] font-sans text-aurora-500 hover:underline ml-2">Publish</button>}
                   {user.role === 'ADMIN' && item.status === 'PUBLISHED' && <button onClick={() => handleStatusChange(item.id, 'ARCHIVED')} className="text-[12px] font-sans text-ember-500 hover:underline ml-2">Keep Private</button>}
                 </div>

@@ -132,7 +132,7 @@ export default function AdminLayout() {
       {/* Sidebar */}
       <aside className="w-[230px] bg-navy-900 min-h-screen flex-shrink-0 flex flex-col">
         <div className="p-3 border-b border-white/10 mb-2">
-          <Link to="/" className="text-white font-serif text-[16px] font-bold">PRISM Admin</Link>
+          <Link to="/" className="text-white font-serif text-[16px] font-bold">PRISM {user.role === 'ADMIN' ? 'Admin' : 'Editor'}</Link>
         </div>
         <nav className="flex-grow overflow-y-auto">
           {navGroups.map((group, idx) => (

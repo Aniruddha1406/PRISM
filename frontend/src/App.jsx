@@ -11,6 +11,7 @@ import ExpeditionDetail from './pages/public/ExpeditionDetail';
 import Datasets from './pages/public/Datasets';
 import DatasetDetail from './pages/public/DatasetDetail';
 import Publications from './pages/public/Publications';
+import PublicationDetail from './pages/public/PublicationDetail';
 import MediaGallery from './pages/public/MediaGallery';
 import News from './pages/public/News';
 import Outreach from './pages/public/Outreach';
@@ -44,6 +45,7 @@ export default function App() {
         <Route path="/datasets" element={<Datasets />} />
         <Route path="/datasets/:slug" element={<DatasetDetail />} />
         <Route path="/publications" element={<Publications />} />
+        <Route path="/publications/:slug" element={<PublicationDetail />} />
         <Route path="/media" element={<MediaGallery />} />
         <Route path="/news" element={<News />} />
         <Route path="/news/:slug" element={<Placeholder title="News Article" />} />

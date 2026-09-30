@@ -2,6 +2,20 @@ import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import api from '../../api/client';
 
+// Map keywords in title/location to static webp assets for preview fallback
+function getStaticPreview(item) {
+  const text = ((item.title || '') + ' ' + (item.location || '') + ' ' + (item.description || '')).toLowerCase();
+  if (text.includes('bharati') || text.includes('isea') || text.includes('ice core') || text.includes('iceberg') || text.includes('east antarctic')) return '/src/assets/expedition_40-640.webp';
+  if (text.includes('maitri') || text.includes('atmospheric') || text.includes('schirmacher')) return '/src/assets/multinational_team-640.webp';
+  if (text.includes('himadri') || text.includes('arctic') || text.includes('svalbard') || text.includes('kongsfjorden') || text.includes('indarc')) return '/src/assets/ncpor_campus-640.webp';
+  if (text.includes('himansh') || text.includes('spiti') || text.includes('himalaya') || text.includes('glacier monitoring')) return '/src/assets/ncpor_staff-640.webp';
+  if (text.includes('penguin') || text.includes('seal') || text.includes('wildlife')) return '/src/assets/polar_team-640.webp';
+  if (text.includes('southern ocean') || text.includes('ctd') || text.includes('vessel') || text.includes('sampling')) return '/src/assets/sa_agulhas-640.webp';
+  if (text.includes('south pole') || text.includes('ice sheet') || text.includes('drilling')) return '/src/assets/south_pole_2010-640.webp';
+  if (text.includes('orv') || text.includes('sagar kanya') || text.includes('research vessel')) return '/src/assets/orv_sagar_kanya-640.webp';
+  return '/src/assets/expedition_40-640.webp'; // generic fallback
+}
+
 export default function MediaManager() {
   const { user } = useOutletContext();
   const [items, setItems] = useState([]);
@@ -11,6 +25,7 @@ export default function MediaManager() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState(null);
   const [albums, setAlbums] = useState([]);
+  const [previewItem, setPreviewItem] = useState(null);
 
   const loadItems = async () => {
     setLoading(true);
@@ -130,12 +145,47 @@ export default function MediaManager() {
               <p className="text-[12px] font-sans text-slate-500 mb-1 truncate">{item.credit ? `Credit: ${item.credit}` : ''} {item.location ? `Location: ${item.location}` : ''}</p>
               {item.album_name && <p className="text-[11px] font-sans text-aurora-500 mb-2">Album: {item.album_name}</p>}
               <div className="flex items-center gap-1 pt-1 border-t border-line">
-                <button onClick={() => handleEdit(item)} className="text-[12px] font-sans text-glacier-500 hover:underline">Edit</button>
+                <button onClick={() => setPreviewItem(item)} className="text-[12px] font-sans text-navy-900/60 hover:text-navy-900 border border-line px-2 py-0.5 rounded-[2px] transition-colors duration-150">View</button>
+                <button onClick={() => handleEdit(item)} className="text-[12px] font-sans text-glacier-500 hover:underline ml-1">Edit</button>
                 {user.role === 'ADMIN' && item.status === 'DRAFT' && <button onClick={() => handleStatusChange(item.id, 'PUBLISHED')} className="text-[12px] font-sans text-aurora-500 hover:underline ml-2">Publish</button>}
                 {user.role === 'ADMIN' && item.status === 'PUBLISHED' && <button onClick={() => handleStatusChange(item.id, 'ARCHIVED')} className="text-[12px] font-sans text-ember-500 hover:underline ml-2">Keep Private</button>}
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Media Preview Lightbox */}
+      {previewItem && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center" role="dialog" aria-modal="true">
+          <div className="absolute inset-0 bg-navy-900/80" onClick={() => setPreviewItem(null)} />
+          <div className="relative max-w-[800px] w-full mx-3">
+            <div className="bg-navy-900 rounded-card overflow-hidden">
+              <div className="aspect-[16/10] bg-black flex items-center justify-center overflow-hidden">
+                {previewItem.media_type === 'VIDEO'
+                  ? <div className="text-white/60 font-sans text-[14px] text-center p-6">Video preview not available in admin panel.<br/>Use the public Media Gallery to view videos.</div>
+                  : <img
+                      src={previewItem.thumbnail_path || previewItem.file_path || getStaticPreview(previewItem)}
+                      alt={previewItem.title}
+                      className="w-full h-full object-contain"
+                      onError={e => { e.target.src = getStaticPreview(previewItem); }}
+                    />
+                }
+              </div>
+              <div className="p-3">
+                <h3 className="text-[15px] font-serif font-bold text-white">{previewItem.title}</h3>
+                <div className="flex flex-wrap gap-3 mt-1 text-[12px] font-sans text-white/60">
+                  {previewItem.credit && <span>Credit: {previewItem.credit}</span>}
+                  {previewItem.location && <span>Location: {previewItem.location}</span>}
+                  {previewItem.album_name && <span>Album: {previewItem.album_name}</span>}
+                </div>
+              </div>
+            </div>
+            <button onClick={() => setPreviewItem(null)}
+              className="absolute top-3 right-3 text-white/80 hover:text-white text-[13px] font-sans bg-navy-900/60 px-3 py-1 rounded-[4px] transition-colors duration-150">
+              Close
+            </button>
+          </div>
         </div>
       )}
     </div>

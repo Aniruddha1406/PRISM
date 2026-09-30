@@ -263,8 +263,8 @@ export default function UnifiedEntry() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[13px] font-sans text-slate-800 mb-1">Upload Media File</label>
-                  <input type="file" accept="image/*,video/*" onChange={e => {
+                  <label className="block text-[13px] font-sans text-slate-800 mb-1">Upload Media File *</label>
+                  <input type="file" required accept="image/*,video/*" onChange={e => {
                     if (e.target.files[0]) setMediaForm({...mediaForm, file_path: e.target.files[0].name});
                   }} className="w-full border border-line rounded-input px-3 py-2 text-[14px] font-sans file:mr-4 file:py-1 file:px-3 file:rounded-card file:border-0 file:text-[12px] file:font-sans file:bg-glacier-500/10 file:text-glacier-700 hover:file:bg-glacier-500/20" />
                 </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import logoImg from '../../assets/logo_transparent.png';
 
 const navLinks = [
   { path: '/', label: 'Home' },
@@ -63,24 +64,21 @@ export default function TopBar() {
             >
               A+
             </button>
-            <span className="text-line ml-1">|</span>
-            <button className="text-[13px] text-glacier-500 font-sans ml-1 hover:underline transition-colors duration-150">
-              हिन्दी
-            </button>
           </div>
         </div>
       </div>
 
-      {/* Main navigation — glass-navy like the footer */}
+
       <nav className="glass-navy sticky top-0 z-50 mx-3 mt-2" aria-label="Main navigation">
         <div className="max-w-[1200px] mx-auto px-4">
           <div className="flex items-center justify-between py-2">
-            <Link to="/" className="text-white font-serif text-[22px] font-bold hover:opacity-90 transition-opacity duration-150">
-              PRISM
+            <Link to="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity duration-150 mr-4 flex-shrink-0">
+              <img src={logoImg} alt="PRISM Logo" className="h-14 w-auto object-contain drop-shadow-md" />
+              <span className="text-white font-serif text-[24px] font-bold tracking-wide">PRISM</span>
             </Link>
 
-            <div className="hidden lg:flex items-center gap-1">
-              <ul className="flex items-center gap-0" role="menubar">
+            <div className="hidden lg:flex items-center gap-2">
+              <ul className="flex items-center gap-0.5" role="menubar">
                 {navLinks.map(link => {
                   const isActive = location.pathname === link.path;
                   return (
@@ -89,7 +87,7 @@ export default function TopBar() {
                         to={link.path}
                         role="menuitem"
                         className={`
-                          block px-2 py-1 text-[13px] font-sans transition-colors duration-150
+                          block px-2 py-1 text-[13px] font-sans whitespace-nowrap transition-colors duration-150
                           ${isActive
                             ? 'text-white border-b-2 border-aurora-500'
                             : 'text-white/75 hover:text-white border-b-2 border-transparent'

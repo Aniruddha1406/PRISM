@@ -4,6 +4,7 @@ import api from '../../api/client';
 
 export default function Home() {
   const [stats, setStats] = useState({ expeditions: 0, datasets: 0, publications: 0, media: 0 });
+  const [publications, setPublications] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,6 +15,15 @@ export default function Home() {
       } catch {
         setStats({ expeditions: 43, datasets: 120, publications: 350, media: 2500 });
       }
+      try {
+        const pubData = await api.get('/publications?limit=2');
+        setPublications(pubData.publications || []);
+      } catch {
+        setPublications([
+          { id: '1', title: 'Glacier Mass Balance Observations in Svalbard: A Decadal Assessment', authors: 'Thamban M., Kumar S., Sharma P.', journal: 'Journal of Glaciology, 2024', pub_type: 'PAPER' },
+          { id: '2', title: 'PRISM Annual Report 2023-24', authors: 'PRISM', journal: '', pub_type: 'ANNUAL_REPORT' },
+        ]);
+      }
       setLoading(false);
     }
     fetchData();
@@ -22,13 +32,13 @@ export default function Home() {
   return (
     <div>
       {/* Hero section */}
-      <section className="relative h-[480px] overflow-hidden">
-        <div className="relative z-10 max-w-[1200px] mx-auto px-3 h-full flex flex-col justify-end pb-6">
-          <h1 className="text-navy-900 font-serif text-[42px] font-bold max-w-[700px] leading-tight">
-            PRISM <br/>
-            <span className="text-[24px] font-normal text-navy-900/80">Polar Research Information Science Media</span>
+      <section className="relative h-[520px] overflow-hidden">
+        <div className="relative z-10 max-w-[1200px] mx-auto px-3 h-full flex flex-col justify-start pt-10">
+          <h1 className="text-navy-900 font-serif text-[56px] font-bold max-w-[700px] leading-none tracking-wide">
+            PRISM
+            <span className="block text-[28px] font-normal text-navy-900/80 tracking-normal leading-snug mt-1">Polar Research Information Science Media</span>
           </h1>
-          <p className="text-slate-800 font-sans text-[16px] mt-4 max-w-[540px]">
+          <p className="text-slate-800 font-sans font-semibold text-[16px] mt-4 max-w-[540px]">
             Advancing scientific knowledge of the Arctic, Antarctic, Southern Ocean, and Himalayan cryosphere through sustained research programmes and expeditions.
           </p>
 
@@ -123,19 +133,18 @@ export default function Home() {
                 </Link>
               </div>
               <div className="bg-white rounded-[4px] border border-line">
-                <PublicationRow
-                  title="Glacier Mass Balance Observations in Svalbard: A Decadal Assessment"
-                  authors="Thamban M., Kumar S., Sharma P."
-                  journal="Journal of Glaciology, 2024"
-                  type="Paper"
-                />
-                <PublicationRow
-                  title="PRISM Annual Report 2023-24"
-                  authors="PRISM"
-                  journal=""
-                  type="Annual Report"
-                  isLast
-                />
+                {publications.length === 0 ? (
+                  <p className="text-[13px] font-sans text-slate-500 p-3">Loading publications...</p>
+                ) : publications.map((pub, idx) => (
+                  <PublicationRow
+                    key={pub.id}
+                    title={pub.title}
+                    authors={pub.authors}
+                    journal={pub.journal ? `${pub.journal}${pub.year ? `, ${pub.year}` : ''}` : (pub.year ? String(pub.year) : '')}
+                    type={pub.pub_type?.replace(/_/g, ' ')}
+                    isLast={idx === publications.length - 1}
+                  />
+                ))}
               </div>
             </section>
 

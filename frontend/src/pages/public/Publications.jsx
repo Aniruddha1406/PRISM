@@ -54,8 +54,10 @@ export default function Publications() {
                 </div>
                 <div className="flex items-center gap-2 ml-3 flex-shrink-0">
                   <span className="text-[11px] font-sans border border-glacier-700 text-glacier-700 px-2 py-0.5 rounded-[2px]">{typeLabels[pub.pub_type] || pub.pub_type}</span>
-                  <a href={`${import.meta.env.VITE_API_URL || '/api/v1'}/publications/${pub.id}/bibtex`} className="text-[12px] font-sans text-glacier-500 hover:underline">BibTeX</a>
-                  <a href={`${import.meta.env.VITE_API_URL || '/api/v1'}/publications/${pub.id}/ris`} className="text-[12px] font-sans text-glacier-500 hover:underline">RIS</a>
+                  <a href={`${import.meta.env.VITE_API_URL || '/api/v1'}/publications/${pub.id}/pdf`} target="_blank" rel="noopener noreferrer" className="text-[12px] font-sans text-glacier-500 hover:text-glacier-700 flex items-center gap-1 hover:underline ml-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    PDF
+                  </a>
                 </div>
               </div>
             </div>
