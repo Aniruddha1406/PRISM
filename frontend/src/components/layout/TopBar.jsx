@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import logoImg from '../../assets/logo_transparent.png';
+
 
 const navLinks = [
   { path: '/', label: 'Home' },
@@ -73,7 +73,7 @@ export default function TopBar() {
         <div className="max-w-[1200px] mx-auto px-4">
           <div className="flex items-center justify-between py-2">
             <Link to="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity duration-150 mr-4 flex-shrink-0">
-              <img src={logoImg} alt="PRISM Logo" className="h-14 w-auto object-contain drop-shadow-md" />
+              <img src="/assets/logo_transparent.png" alt="PRISM Logo" className="h-14 w-auto object-contain drop-shadow-md" />
               <span className="text-white font-serif text-[24px] font-bold tracking-wide">PRISM</span>
             </Link>
 
