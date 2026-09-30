@@ -27,7 +27,7 @@ function setTokenCookies(res, userId, role) {
   const cookieOpts = {
     httpOnly: true,
     secure: config.NODE_ENV === 'production',
-    sameSite: 'lax',
+    sameSite: config.NODE_ENV === 'production' ? 'none' : 'lax',
     path: '/',
   };
 
